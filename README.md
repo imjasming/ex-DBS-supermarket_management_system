@@ -1,1 +1,1 @@
-# ex-DBS-supermarket_management_system  
+# supermarket management system  
