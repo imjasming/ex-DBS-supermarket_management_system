@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts'
+
 ]
 
 MIDDLEWARE = [
@@ -77,19 +78,19 @@ WSGI_APPLICATION = 'ex_DBS_supermarket_management_system.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 
-        # 'ENGINE': 'django.db.backends.mysql', # 数据库引擎
-        # 'NAME': '', # 数据库名
-        # 'USER': '', # 账号
-        # 'PASSWORD': '', # 密码
-        # 'HOST': '', # HOST
-        # 'POST': 3306, # 端口
-        'OPTIONS': {
-
-        },
+        'ENGINE': 'django.db.backends.mysql', # 数据库引擎
+        'NAME': 'mysql', # 数据库名
+        'USER': 'root', # 账号
+        'PASSWORD': '123', # 密码
+        'HOST': 'localhost', # HOST
+        'POST': 3306, # 端口
     }
+# 'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#
+#     }
 }
 
 
