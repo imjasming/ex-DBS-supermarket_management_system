@@ -76,19 +76,15 @@ WSGI_APPLICATION = 'ex_DBS_supermarket_management_system.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-
-        # 'ENGINE': 'django.db.backends.mysql', # 数据库引擎
-        # 'NAME': '', # 数据库名
-        # 'USER': '', # 账号
-        # 'PASSWORD': '', # 密码
-        # 'HOST': '', # HOST
-        # 'POST': 3306, # 端口
-        'OPTIONS': {
-
-        },
+   
+       'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'database_design',
+        'USER':'root',
+        'PASSWORD':'123456',
+        'HOST':'47.100.34.91',
+        'PORT':'3306',
+    
     }
 }
 
@@ -117,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
