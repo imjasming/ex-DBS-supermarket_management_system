@@ -40,27 +40,20 @@ class MyBaseUser(AbstractBaseUser):
         return self.id
 
 
-class SMANAGE(MyBaseUser):
-    SMID       =models.ForeignKey(MyBaseUser, related_name="SMANAGE_id",primary_key=True,on_delete=models.CASCADE)
-
-
-
-
 class Branch(MyBaseUser):
     BID       =models.ForeignKey(MyBaseUser, related_name="Branch_id",primary_key=True,on_delete=models.CASCADE)
     Bname     =models.CharField(max_length=20)
     Baddress  =models.CharField(max_length=20)
-    Tel       =models.IntegerField
-    SMID      =models.ForeignKey(SMANAGE,on_delete=models.CASCADE)
+    Tel       =models.IntegerField()
+    StaNO      =models.IntegerField()               #经理编号
 
-
-class Client(MyBaseUser):
+class Customer(MyBaseUser):
     CID       =models.ForeignKey(MyBaseUser, related_name="Client_id",primary_key=True,on_delete=models.CASCADE)
     CPassword =models.CharField(max_length=20)
     CName     =models.CharField(max_length=20)
-    Tel       =models.IntegerField
+    Tel       =models.IntegerField()
 
-class Stuff(MyBaseUser):
+class Staff(MyBaseUser):
     StaNO     =models.ForeignKey(MyBaseUser, related_name="Stuff_id",primary_key=True,on_delete=models.CASCADE)
     SPassword =models.CharField(max_length=20)
     StaName   =models.CharField(max_length=20)
@@ -68,43 +61,50 @@ class Stuff(MyBaseUser):
     BID       =models.ForeignKey(Branch,on_delete=models.CASCADE)
 
 class Goods(models.Model):
-    PID       =models.IntegerField(primary_key=True)
+    PID       =models.IntegerField(primary_key=True)   #工厂编码,同一商品的编码是一样
     PName     =models.CharField(max_length=20)
-    price     =models.FloatField
-    BID       =models.ForeignKey(Branch,on_delete=models.CASCADE)
-
-class Product(models.Model):
-    PID       =models.IntegerField(primary_key=True)
-    PName     =models.CharField(max_length=20)
-    PTime     =models.DateTimeField(auto_now=False)
+    price     =models.FloatField()
 
 class Supplier(models.Model):
     SuppID    =models.IntegerField(primary_key=True)
+    Suppname  =models.CharField(max_length=20)
     tel       =models.IntegerField
     Suppaddress =models.CharField(max_length=20)
 
-class repository(models.Model):
+class repository(models.Model):           #商品存供货商的模型
     SuppID    =models.ForeignKey(Supplier,on_delete=models.CASCADE)
-    PID       =models.ForeignKey(Product,on_delete=models.CASCADE)
-    class Meta:
-        unique_together=("SuppID","PID")
+    PID       =models.ForeignKey(Goods,on_delete=models.CASCADE)
+    num       =models.IntegerField()
+    price     =models.FloatField()
+
+
+class store(models.Model):               #商品存分支超市的模型
+    BID = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    PID = models.ForeignKey(Goods, on_delete=models.CASCADE)
+    num = models.IntegerField()
+    price = models.FloatField()
+
 
 class Supply(models.Model):
     SuppID    =models.ForeignKey(Supplier,on_delete=models.CASCADE)
-    SMID      =models.ForeignKey(SMANAGE,on_delete=models.CASCADE)
-    PID       =models.ForeignKey(Product,on_delete=models.CASCADE)
-    Name = models.CharField(max_length=20)
-    Time = models.DateTimeField(auto_now=False)
-    BID  =models.ForeignKey(Branch,on_delete=models.CASCADE)
-    class Meta:
-        unique_together=("SuppID","SMID")
+    SMID      =models.ForeignKey(Staff,on_delete=models.CASCADE)
+    PID       =models.ForeignKey(Goods,on_delete=models.CASCADE)
+    PName     =models.CharField(max_length=20)
+    Time      =models.DateTimeField(auto_now=False)
+    BID       =models.ForeignKey(Branch,on_delete=models.CASCADE)
+
 
 class Record(models.Model):
-    CID       =models.ForeignKey(Client,on_delete=models.CASCADE)
+    RID       =models.IntegerField(primary_key=True,default=0)
+    CID       =models.ForeignKey(Customer,on_delete=models.CASCADE)
     PID       =models.ForeignKey(Goods,on_delete=models.CASCADE)
     PName     = models.CharField(max_length=20)
     BID       =models.ForeignKey(Branch,on_delete=models.CASCADE)
     DateTime  =models.DateTimeField(auto_now=False)
-    price     =models.FloatField
-    class Meta:
-        unique_together=("CID","PID")
+    price     =models.FloatField()
+
+class sell(models.Model):
+    PID=models.ForeignKey(Goods,on_delete=models.CASCADE)
+    StaNO=models.ForeignKey(Staff,on_delete=models.CASCADE)
+    num=models.IntegerField()
+    price=models.FloatField()

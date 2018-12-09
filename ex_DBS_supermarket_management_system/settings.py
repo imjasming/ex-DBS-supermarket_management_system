@@ -78,13 +78,13 @@ WSGI_APPLICATION = 'ex_DBS_supermarket_management_system.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'database_design',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': '47.100.34.91',
+        'PORT': '3306',
 
-        'ENGINE': 'django.db.backends.mysql', # 数据库引擎
-        'NAME': 'mysql', # 数据库名
-        'USER': 'root', # 账号
-        'PASSWORD': '123', # 密码
-        'HOST': 'localhost', # HOST
-        'POST': 3306, # 端口
     }
 # 'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
