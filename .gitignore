@@ -23,3 +23,6 @@ http-client.private.env.json
 **/.idea/shelf
 
 /db.sqlite3
+/account/_pycache_
+/_pycache_
+/ex_DBS_supermarket_management_system/_pycache_
