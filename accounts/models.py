@@ -52,7 +52,7 @@ class Branch(MyBaseUser):
 class Customer(MyBaseUser):
     CID = models.ForeignKey(MyBaseUser, related_name="Client_id", primary_key=True, on_delete=models.CASCADE)
     CPassword = models.CharField(max_length=20)
-    CName = models.CharField(max_length=20)
+    CName = models.CharField(max_length=20, unique=True)
     Tel = models.IntegerField()
 
 

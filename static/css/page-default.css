@@ -3,12 +3,31 @@
     height: 100%;
 }
 
+.blur {
+    background-color: hsla(0, 0%, 100%, .4);
+    filter: blur(4px);
+}
+
+.radius-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
 #banner {
     width: 60%;
     height: 20%;
     overflow: hidden;
 }
 
+#form-container {
+    width: 50%;
+    max-width: 500px;
+    min-width: 180px;
+    padding: 20px;
+    background-color: rgb(250, 250, 255);
+    border-radius: 8px;
+}
 
 /*ul {
     list-style-type: none;
