@@ -77,13 +77,14 @@ WSGI_APPLICATION = 'ex_DBS_supermarket_management_system.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+
+       'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'database_design',
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': '47.100.34.91',
-        'PORT': '3306',
+        'USER':'root',
+        'PASSWORD':'123456',
+        'HOST':'47.100.34.91',
+        'PORT':'3306',
 
     }
 # 'default': {

@@ -1,6 +1,10 @@
-from django.conf.urls import url
-from accounts import views
+from django.urls import path
 
-urlpattern=[
-    url(r'`$',views.index),
+from . import views
+
+urlpatterns = [
+
+     path('', views.user_index),
+
+
 ]
