@@ -39,7 +39,7 @@ INSTALLED_APPS = [
 
     
     'accounts',
-    'my_market',
+  
 ]
 
 MIDDLEWARE = [

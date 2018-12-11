@@ -21,9 +21,9 @@ def user_register(request):
         if uf.is_valid():
             # 读取表单值
             username = uf.cleaned_data['username']
-            email = uf.cleaned_data['email']
+            tel = uf.cleaned_data['tel']
             password = uf.cleaned_data['password']
-            user = Customer.objects.create_user(username=username, email=email, password=password)
+            user = Customer.objects.create_user(username=username, tel=tel, password=password)
             return render(request, 'login.html', {'error': 'create success'})
         else:
             return render(request, 'register.html', {'error': uf.errors})
@@ -36,16 +36,17 @@ def user_register(request):
 # 用户登录
 def user_login(req):
     if req.method == 'POST':
-        email = req.POST.get('email')
+        id = req.POST.get('id')
         password = req.POST.get('password')
-        user = authenticate(email=email, password=password)
+        user = authenticate(id=id, password=password)
         if user:
             if user.is_active:
                 # 成功登录
                 login(req, user)
                 return HttpResponseRedirect('/profile')
             else:
-                return HttpResponse("Your Rango account is disabled.")
+                return render(req, 'login.html', {"error": "Your Rango account is disabled."})
+                
         else:
 
             return render(req, 'login.html', {"error": "password is invalid."})
