@@ -41,77 +41,80 @@ class MyBaseUser(AbstractBaseUser):
         return self.id
 
 
-class Branch(MyBaseUser):
+class Branch(MyBaseUser):  #分支超市模型
     BID = models.ForeignKey(MyBaseUser, related_name="Branch_id", primary_key=True, on_delete=models.CASCADE)
     Bname = models.CharField(max_length=20)
     Baddress = models.CharField(max_length=20)
     Tel = models.IntegerField()
-    StaNO = models.IntegerField()  # 经理编号
+    StaNO = models.IntegerField()  # 经理编号，经理是员工的一员，体现经理的存在是Staff表中的Position一项是manage
 
 
-class Customer(MyBaseUser):
+class Customer(MyBaseUser):   #客户端模型
     CID = models.ForeignKey(MyBaseUser, related_name="Client_id", primary_key=True, on_delete=models.CASCADE)
     CPassword = models.CharField(max_length=20)
     CName = models.CharField(max_length=20, unique=True)
     Tel = models.IntegerField()
 
 
-class Staff(MyBaseUser):
+class Staff(MyBaseUser):   #员工模型
     StaNO = models.ForeignKey(MyBaseUser, related_name="Stuff_id", primary_key=True, on_delete=models.CASCADE)
     SPassword = models.CharField(max_length=20)
     StaName = models.CharField(max_length=20)
-    Position = models.CharField(max_length=20)
+    Position = models.CharField(max_length=20)           #如果职位这项是manage，下面的BID默认为属于该Staff管理
     BID = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
 
-class Goods(models.Model):
-    PID = models.IntegerField(primary_key=True)  # 工厂编码,同一商品的编码是一样
+class Goods(models.Model):  #商品模型
+    PID = models.IntegerField(primary_key=True)          # 工厂编码,同一商品的编码是一样，例如五百瓶冰红茶将只有一个ID，而其属性在GOODS表中只有这三项，数量存在下面两个表中
     PName = models.CharField(max_length=20)
     price = models.FloatField()
 
 
-class Supplier(models.Model):
+class Supplier(models.Model):   # 商品存供货商的模型
     SuppID = models.IntegerField(primary_key=True)
     Suppname = models.CharField(max_length=20)
     tel = models.IntegerField
     Suppaddress = models.CharField(max_length=20)
 
 
-class repository(models.Model):  # 商品存供货商的模型
+class repository(models.Model):  # 商品存在供货商的仓库的模型
     SuppID = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     PID = models.ForeignKey(Goods, on_delete=models.CASCADE)
     num = models.IntegerField()
     price = models.FloatField()
 
 
-class store(models.Model):  # 商品存分支超市的模型
+class store(models.Model):        # 商品存分支超市的仓库的模型
     BID = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     PID = models.ForeignKey(Goods, on_delete=models.CASCADE)
     num = models.IntegerField()
     price = models.FloatField()
 
 
-class Supply(models.Model):
+class Supply(models.Model):       #商品从供货商到具体分支超市的模型
     SuppID = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    SMID = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    SMID = models.ForeignKey(Staff, on_delete=models.CASCADE)   #显示是哪个总部管理者确认的进货请求
     PID = models.ForeignKey(Goods, on_delete=models.CASCADE)
     PName = models.CharField(max_length=20)
-    Time = models.DateTimeField(auto_now=False)
-    BID = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    price = models.FloatField()
+    num = models.IntegerField()
+    Time = models.DateTimeField(auto_now=False)                #进货日期
+    BID = models.ForeignKey(Branch, on_delete=models.CASCADE)   #具体的分支超市
 
 
-class Record(models.Model):
-    RID = models.IntegerField(primary_key=True, default=0)
-    CID = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    PID = models.ForeignKey(Goods, on_delete=models.CASCADE)
-    PName = models.CharField(max_length=20)
+class Record(models.Model):     #customer购买记录模型
+    RID = models.IntegerField(primary_key=True, default=0)      #记录编号，类似于订单码
+    CID = models.ForeignKey(Customer, on_delete=models.CASCADE)  #客户端编号
+    PID = models.ForeignKey(Goods, on_delete=models.CASCADE)     #商品编号
+    PName = models.CharField(max_length=20)                       #商品名称
     BID = models.ForeignKey(Branch, on_delete=models.CASCADE)
     DateTime = models.DateTimeField(auto_now=False)
     price = models.FloatField()
 
 
-class sell(models.Model):
-    PID = models.ForeignKey(Goods, on_delete=models.CASCADE)
-    StaNO = models.ForeignKey(Staff, on_delete=models.CASCADE)
+class sell(models.Model):       #员工销售商品的记录
+    PID = models.ForeignKey(Goods, on_delete=models.CASCADE)       #商品编号
+    StaNO = models.ForeignKey(Staff, on_delete=models.CASCADE)     #员工编号
     num = models.IntegerField()
     price = models.FloatField()
+    Time = models.DateTimeField(auto_now=False)                    #销售日期
