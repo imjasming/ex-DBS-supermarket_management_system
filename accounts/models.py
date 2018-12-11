@@ -42,7 +42,7 @@ class MyBaseUser(AbstractBaseUser):
 
 
 class Branch(MyBaseUser):  #分支超市模型
-    BID = models.ForeignKey(MyBaseUser, related_name="Branch_id", primary_key=True, on_delete=models.CASCADE)
+    BID = models.OneToOneField(MyBaseUser, related_name="Branch_id", primary_key=True,on_delete=models.CASCADE)
     Bname = models.CharField(max_length=20)
     Baddress = models.CharField(max_length=20)
     Tel = models.IntegerField()
@@ -50,14 +50,14 @@ class Branch(MyBaseUser):  #分支超市模型
 
 
 class Customer(MyBaseUser):   #客户端模型
-    CID = models.ForeignKey(MyBaseUser, related_name="Client_id", primary_key=True, on_delete=models.CASCADE)
+    CID = models.OneToOneField(MyBaseUser, related_name="Client_id", primary_key=True,on_delete=models.CASCADE)
     CPassword = models.CharField(max_length=20)
     CName = models.CharField(max_length=20, unique=True)
     Tel = models.IntegerField()
 
 
 class Staff(MyBaseUser):   #员工模型
-    StaNO = models.ForeignKey(MyBaseUser, related_name="Stuff_id", primary_key=True, on_delete=models.CASCADE)
+    StaNO = models.OneToOneField(MyBaseUser, related_name="Stuff_id", primary_key=True,on_delete=models.CASCADE)
     SPassword = models.CharField(max_length=20)
     StaName = models.CharField(max_length=20)
     Position = models.CharField(max_length=20)           #如果职位这项是manage，下面的BID默认为属于该Staff管理
@@ -70,7 +70,7 @@ class Goods(models.Model):  #商品模型
     price = models.FloatField()
 
 
-class Supplier(models.Model):   # 商品存供货商的模型
+class Supplier(models.Model):   # 商品供货商的模型
     SuppID = models.IntegerField(primary_key=True)
     Suppname = models.CharField(max_length=20)
     tel = models.IntegerField
@@ -82,6 +82,8 @@ class repository(models.Model):  # 商品存在供货商的仓库的模型
     PID = models.ForeignKey(Goods, on_delete=models.CASCADE)
     num = models.IntegerField()
     price = models.FloatField()
+    class Meta:
+        unique_together = ("SuppID", "PID")
 
 
 class store(models.Model):        # 商品存分支超市的仓库的模型
@@ -89,6 +91,8 @@ class store(models.Model):        # 商品存分支超市的仓库的模型
     PID = models.ForeignKey(Goods, on_delete=models.CASCADE)
     num = models.IntegerField()
     price = models.FloatField()
+    class Meta:
+        unique_together = ("BID", "PID")
 
 
 class Supply(models.Model):       #商品从供货商到具体分支超市的模型
@@ -100,7 +104,8 @@ class Supply(models.Model):       #商品从供货商到具体分支超市的模
     num = models.IntegerField()
     Time = models.DateTimeField(auto_now=False)                #进货日期
     BID = models.ForeignKey(Branch, on_delete=models.CASCADE)   #具体的分支超市
-
+    class Meta:
+        unique_together = ("SuppID", "SMID","PID")
 
 class Record(models.Model):     #customer购买记录模型
     RID = models.IntegerField(primary_key=True, default=0)      #记录编号，类似于订单码
@@ -108,13 +113,16 @@ class Record(models.Model):     #customer购买记录模型
     PID = models.ForeignKey(Goods, on_delete=models.CASCADE)     #商品编号
     PName = models.CharField(max_length=20)                       #商品名称
     BID = models.ForeignKey(Branch, on_delete=models.CASCADE)
-    DateTime = models.DateTimeField(auto_now=False)
+    Time = models.DateTimeField(auto_now=False)
     price = models.FloatField()
 
 
 class sell(models.Model):       #员工销售商品的记录
+    SID =models.IntegerField(primary_key=True, default=0)         #销售记录编号，类似于订单码
     PID = models.ForeignKey(Goods, on_delete=models.CASCADE)       #商品编号
     StaNO = models.ForeignKey(Staff, on_delete=models.CASCADE)     #员工编号
+    PName = models.CharField(max_length=20)  # 商品名称
     num = models.IntegerField()
     price = models.FloatField()
+    BID = models.ForeignKey(Branch, on_delete=models.CASCADE)
     Time = models.DateTimeField(auto_now=False)                    #销售日期
