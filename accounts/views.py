@@ -1,7 +1,18 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.http import HttpResponse
+from accounts.forms import LoginForm
+from accounts.admin import UserCreationForm
 
-def index(request):
-    return HttpResponse("")
+
+def login(request):
+    if request.method == 'GET':
+        form = LoginForm()
+        return render(request, 'login.html',
+                      {'title': 'Login', 'form': form})
+
+
+def register(request):
+    if request.method == 'GET':
+        form = UserCreationForm
+        return render(request, 'register.html',
+                      {'form': form})
