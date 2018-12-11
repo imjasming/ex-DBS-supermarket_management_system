@@ -118,7 +118,7 @@ class Record(models.Model):     #customer购买记录模型
 
 
 class sell(models.Model):       #员工销售商品的记录
-    SID =models.IntegerField(primary_key=True, default=0)         #销售记录编号，类似于订单码
+    SID = models.IntegerField(primary_key=True, default=0)  # 记录编号，类似于订单码
     PID = models.ForeignKey(Goods, on_delete=models.CASCADE)       #商品编号
     StaNO = models.ForeignKey(Staff, on_delete=models.CASCADE)     #员工编号
     PName = models.CharField(max_length=20)  # 商品名称
