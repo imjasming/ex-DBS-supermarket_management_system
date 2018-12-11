@@ -4,18 +4,27 @@ from django import forms
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from .models import MyBaseUser
+from .models import MyBaseUser, Customer
 
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password = forms.CharField(label='Password', max_length=18, min_length=6,
-                               widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    username = forms.CharField(label='Username', max_length=20, min_length=6,
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'username'}),
+                               error_messages={'required': 'username already taken.', })
+    password = forms.CharField(label='Password', min_length=6, max_length=18,
+                               widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
+    re_password = forms.CharField(label='Password confirmation', max_length=18, min_length=6,
+                                  widget=forms.PasswordInput(
+                                      attrs={'class': 'form-control', 'placeholder': 'confirm again'}))
+    tel = forms.DecimalField(label='Phone number', max_digits=11,
+                             widget=forms.NumberInput(
+                                 attrs={'class': 'form-control', 'placeholder': 'you phone number'}))
 
     class Meta:
-        model = MyBaseUser
-        fields = ('right',)
+        model = Customer
+        fields = ()
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -26,11 +35,9 @@ class UserCreationForm(forms.ModelForm):
         # Save the provided password in hashed format
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password"])
-        # here set current time to created_date
         if commit:
             user.save()
         return user
-
 
 
 class UserAdmin(BaseUserAdmin):
@@ -51,7 +58,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ( 'password', 'right')}
+            'fields': ('password', 'right')}
          ),
     )
     search_fields = ('id',)
