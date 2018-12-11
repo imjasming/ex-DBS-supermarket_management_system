@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    
     'accounts',
     'my_market',
 ]
@@ -77,10 +79,10 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'exercise',
-        'USER': 'test',
+        'NAME': 'webdev',
+        'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
+        'HOST': '47.100.34.91',
         'PORT': '3306',
 
     }
