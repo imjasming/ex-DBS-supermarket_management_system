@@ -1,8 +1,11 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.translation import gettext, gettext_lazy as _
 
 from .models import Customer, Branch, Staff
+
+User = get_user_model()
 
 
 class AdminLoginForm(forms.Form):
@@ -64,3 +67,4 @@ class MyPasswordChangeForm(PasswordChangeForm):
                 code='password_incorrect',
             )
         return old_password
+

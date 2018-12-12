@@ -37,14 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
-    'my_market',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -76,18 +75,18 @@ WSGI_APPLICATION = 'ex_DBS_supermarket_management_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'wevdev',
-        'USER': 'root',
-        'PASSWORD': '123456',
+        'NAME': 'webdev',
+        'USER': 'web',
+        'PASSWORD': 'web',
         'HOST': '47.100.34.91',
         'PORT': '3306',
 
     }
+
     # 'default': {
     #         'ENGINE': 'django.db.backends.sqlite3',
     #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    #
-    #     {
+    #     }
 }
 
 # Password validation

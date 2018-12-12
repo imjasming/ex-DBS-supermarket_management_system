@@ -1,14 +1,10 @@
 {% extends "base.html" %}
-{% load static %}
-{% block head %}
-
-{% endblock %}
 {% block content %}
     <div id="form-container" class="container mx-auto mt-5">
-        <form class="" action="/login" onsubmit="" method="post">
+        <form class="" action="/register" onsubmit="" method="post">
             {% csrf_token %}
             <div class="text-center mb-4">
-                <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+                <h1 class="h3 mb-3 font-weight-normal">Sign up</h1>
             </div>
             <div class="form-group">
                 <label for="type">Select your account type</label>
@@ -22,17 +18,32 @@
             <div class="form-group">
                 <p class="error">{{ error }}</p>
                 {{ form.non_field_errors }}
-                <p class="errors">{{ form.id.errors }}</p>
-                <label for="{{ form.id.id_for_label }}">User ID</label>
-                {{ form.id }}
+                <p class="errors">{{ form.username.errors }}</p>
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <p class="errors">{{ form.name.errors }}</p>
+                <label for="{{ form.name.id_for_label }}">name</label>
+                {{ form.name }}
             </div>
             <div class="form-group">
                 <p class="errors">{{ form.password.errors }}</p>
                 <label for="{{ form.password.id_for_label }}">Password</label>
                 {{ form.password }}
             </div>
+            <div class="form-group">
+                <p class="errors">{{ form.re_password.errors }}</p>
+                <label for="{{ form.re_password.id_for_label }}">Password confirmation</label>
+                {{ form.re_password }}
+            </div>
+            <div class="form-group">
+                <p class="errors">{{ form.tel.errors }}</p>
+                <label for="{{ form.tel.id_for_label }}">Phone number</label>
+                {{ form.tel }}
+            </div>
             <button type="submit" class="btn btn-primary btn-block btn-lg">Submit</button>
-            <a href="/register">Sign up</a>
+            <a href="/login">Sign in</a>
         </form>
     </div>
 {% endblock %}
