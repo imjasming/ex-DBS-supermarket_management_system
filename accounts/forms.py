@@ -83,6 +83,7 @@ class UserForm(forms.Form):
 class RegistrationForm(forms.Form):
     username = forms.CharField(required=True,max_length=20)
     tel = forms.CharField(required=True,max_length=11)
+    right=forms.IntegerField()
     password = forms.CharField(min_length=6)
     re_password = forms.CharField(min_length=6)
     def clean_username(self):
@@ -101,6 +102,13 @@ class RegistrationForm(forms.Form):
             return password
         else:
             raise forms.ValidationError("Your must input 11 bit phone number.")
+        return password
+    def clean_right(self):
+        right = self.cleaned_data.get('right')
+        if len(right)<=4 and len(right)>=1:
+            return right
+        else:
+            raise forms.ValidationError("Your must input correct right number.")
         return password
     def clean_password(self):
         password = self.cleaned_data.get('password')

@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 class MyUserManager(BaseUserManager):
-    def create_user(self, password=None, right=0):
+    def create_user(self, password=None, right):
         user = self.model(
             right=right
         )
