@@ -13,6 +13,9 @@ class UserCreationForm(forms.ModelForm):
     username = forms.CharField(label='Username', max_length=20, min_length=6,
                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'username'}),
                                error_messages={'required': 'username already taken.', })
+    name = forms.CharField(label='name', max_length=20, min_length=1,
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'name'}),
+                               error_messages={'required': 'name need.', })
     password = forms.CharField(label='Password', min_length=6, max_length=18,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
     re_password = forms.CharField(label='Password confirmation', max_length=18, min_length=6,
@@ -23,21 +26,39 @@ class UserCreationForm(forms.ModelForm):
                                  attrs={'class': 'form-control', 'placeholder': 'you phone number'}))
 
     class Meta:
-        model = Customer
+        model = MyBaseUser
         fields = ()
 
-    def clean_password2(self):
-        # Check that the two password entries match
-        password = self.cleaned_data.get("password")
-        return password
+    # def clean_username(self):
+    #     username = self.cleaned_data.get('username')
+    #     filter_result = User.objects.filter(username=username)
+    #     if len(filter_result) > 0:
+    #         raise forms.ValidationError("username already taken.")
+    #     return username
 
-    def save(self, commit=True):
-        # Save the provided password in hashed format
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])
-        if commit:
-            user.save()
-        return user
+    # def clean_password(self):
+    #     password = self.cleaned_data.get('password')
+    #     if len(password) < 6:
+    #         raise forms.ValidationError("password too short.")
+    #     elif len(password) > 20:
+    #         raise forms.ValidationError("Your password is too long.")
+    #     return password
+
+
+    # def clean_re_password(self):
+    #     password = self.cleaned_data.get('password')
+    #     re_password = self.cleaned_data.get('confirm')
+    #     if password and re_password and password != re_password:
+    #         raise forms.ValidationError("Password mismatch.")
+    #     return re_password
+
+    # def save(self, commit=True):
+    #     # Save the provided password in hashed format
+    #     user = super().save(commit=False)
+    #     user.set_password(self.cleaned_data["password"])
+    #     if commit:
+    #         user.save()
+    #     return user
 
 
 class UserAdmin(BaseUserAdmin):

@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
-from accounts.forms import LoginForm, RegistrationForm
+from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer
 
@@ -19,20 +19,21 @@ def user_register(request):
     Method = request.method
     if Method == 'POST':
         # 如果有post提交的动作，就将post中的数据赋值给uf，供该函数使用
-        uf = RegistrationForm(request.POST)
+        uf = UserCreationForm(request.POST)
         if uf.is_valid():
             # 读取表单值
             username = uf.cleaned_data['username']
             tel = uf.cleaned_data['tel']
             password = uf.cleaned_data['password']
             user = User.objects.create_user(username=username, tel=tel, password=password)
-            return render(request, 'login.html', {'error': 'create success'})
+            return HttpResponse("chenggong")
         else:
-            return render(request, 'register.html', {'error': uf.errors})
+            form = UserCreationForm()
+            return render(request, 'register.html', {'form': form,'error': uf.errors})
+    
     else:
         form = UserCreationForm()
-        return render(request, 'register.html',
-                      {'form': form})
+        return render(request, 'register.html', {'form': form})
 
 
 # 用户登录
