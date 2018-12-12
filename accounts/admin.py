@@ -4,16 +4,19 @@ from django import forms
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from .models import MyBaseUser, Customer
+from accounts.models import MyBaseUser, Customer
 
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    username = forms.CharField(label='Username', max_length=20, min_length=6,
+    a_username = forms.CharField(label='Username', max_length=20, min_length=6,
                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'username'}),
                                error_messages={'required': 'username already taken.', })
-    password = forms.CharField(label='Password', min_length=6, max_length=18,
+    name = forms.CharField(label='name', max_length=20, min_length=1,
+                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'name'}),
+                               error_messages={'required': 'name need.', })
+    a_password = forms.CharField(label='Password', min_length=6, max_length=18,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
     re_password = forms.CharField(label='Password confirmation', max_length=18, min_length=6,
                                   widget=forms.PasswordInput(
@@ -23,21 +26,39 @@ class UserCreationForm(forms.ModelForm):
                                  attrs={'class': 'form-control', 'placeholder': 'you phone number'}))
 
     class Meta:
-        model = Customer
+        model = MyBaseUser
         fields = ()
 
-    def clean_password2(self):
-        # Check that the two password entries match
-        password = self.cleaned_data.get("password")
-        return password
+    def clean_a_username(self):
+        a_username = self.cleaned_data.get('a_username')
+        filter_result = MyBaseUser.objects.filter(username=a_username)
+        if len(filter_result) > 0:
+            raise forms.ValidationError("username already taken.")
+        return a_username
 
-    def save(self, commit=True):
-        # Save the provided password in hashed format
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])
-        if commit:
-            user.save()
-        return user
+    # def clean_password(self):
+    #     password = self.cleaned_data.get('password')
+    #     if len(password) < 6:
+    #         raise forms.ValidationError("password too short.")
+    #     elif len(password) > 20:
+    #         raise forms.ValidationError("Your password is too long.")
+    #     return password
+
+
+    # def clean_re_password(self):
+    #     password = self.cleaned_data.get('password')
+    #     re_password = self.cleaned_data.get('confirm')
+    #     if password and re_password and password != re_password:
+    #         raise forms.ValidationError("Password mismatch.")
+    #     return re_password
+
+    # def save(self, commit=True):
+    #     # Save the provided password in hashed format
+    #     user = super().save(commit=False)
+    #     user.set_password(self.cleaned_data["password"])
+    #     if commit:
+    #         user.save()
+    #     return user
 
 
 class UserAdmin(BaseUserAdmin):
@@ -47,10 +68,10 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('id', 'right', 'is_admin')
+    list_display = ('username',  'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (
-        (None, {'fields': ('id', 'password', 'right')}),
+        (None, {'fields': ('username', 'password' )}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -58,11 +79,11 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('password', 'right')}
+            'fields': ('password')}
          ),
     )
-    search_fields = ('id',)
-    ordering = ('id',)
+    search_fields = ('username',)
+    ordering = ('username',)
     filter_horizontal = ()
 
 

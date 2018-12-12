@@ -14,17 +14,22 @@
                     <option>manager</option>
                 </select>
             </div>
+            {{ form.non_field_errors }}
             <div class="form-group">
                 <p class="error">{{ error }}</p>
-                {{ form.non_field_errors }}
-                <p class="errors">{{ form.username.errors }}</p>
-                <label for="{{ form.username.id_for_label }}">Username</label>
-                {{ form.username }}
+                <p class="errors">{{ form.a_username.errors }}</p>
+                <label for="{{ form.a_username.id_for_label }}">Username</label>
+                {{ form.a_username }}
             </div>
             <div class="form-group">
-                <p class="errors">{{ form.password.errors }}</p>
-                <label for="{{ form.password.id_for_label }}">Password</label>
-                {{ form.password }}
+                <p class="errors">{{ form.name.errors }}</p>
+                <label for="{{ form.name.id_for_label }}">name</label>
+                {{ form.name }}
+            </div>
+            <div class="form-group">
+                <p class="errors">{{ form.a_password.errors }}</p>
+                <label for="{{ form.a_password.id_for_label }}">Password</label>
+                {{ form.a_password }}
             </div>
             <div class="form-group">
                 <p class="errors">{{ form.re_password.errors }}</p>
