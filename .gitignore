@@ -30,3 +30,4 @@ http-client.private.env.json
 /ex_DBS_supermarket_management_system/_pycache_
 *.pyc
 /accounts/migrations
+accounts/__pycache__/*.pyc
