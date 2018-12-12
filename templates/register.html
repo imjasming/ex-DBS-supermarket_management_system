@@ -6,9 +6,17 @@
             <div class="text-center mb-4">
                 <h1 class="h3 mb-3 font-weight-normal">Sign up</h1>
             </div>
-
             <div class="form-group">
-                <p class="error">{{ input_error }}</p>
+                <label for="type">Select your account type</label>
+                <select class="form-control" id="type" name="type">
+                    <option>customer</option>
+                    <option>staff</option>
+                    <option>branch</option>
+                    <option>manager</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <p class="error">{{ error }}</p>
                 {{ form.non_field_errors }}
                 <p class="errors">{{ form.username.errors }}</p>
                 <label for="{{ form.username.id_for_label }}">Username</label>
@@ -30,7 +38,7 @@
                 {{ form.tel }}
             </div>
             <button type="submit" class="btn btn-primary btn-block btn-lg">Submit</button>
-            <a href="/register">Sign up</a>
+            <a href="/login">Sign in</a>
         </form>
     </div>
 {% endblock %}

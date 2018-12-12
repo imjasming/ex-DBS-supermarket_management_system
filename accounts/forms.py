@@ -1,8 +1,11 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
 from django.utils.translation import gettext, gettext_lazy as _
 
 from .models import Customer, Branch, Staff
+
+User = get_user_model()
 
 
 class AdminLoginForm(forms.Form):
@@ -66,61 +69,54 @@ class MyPasswordChangeForm(PasswordChangeForm):
         return old_password
 
 
-
-#登录表单
+# 登录表单
 class UserForm(forms.Form):
-    id = forms.CharField(required=True,max_length=20)
+    id = forms.CharField(required=True, max_length=20)
     password = forms.CharField(min_length=11)
+
     def clean_id(self):
         id = self.cleaned_data.get('id')
         if id:
-            filter_result = User.objects.filter(id=email)
+            filter_result = User.objects.filter(id=id)
             if not filter_result:
                 raise forms.ValidationError("id not found.")
         return id
 
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(required=True,max_length=20)
-    tel = forms.CharField(required=True,max_length=11)
-    right=forms.IntegerField()
+    username = forms.CharField(required=True, max_length=20)
+    tel = forms.CharField(required=True, max_length=11)
     password = forms.CharField(min_length=6)
     re_password = forms.CharField(min_length=6)
+
     def clean_username(self):
-        username=self.cleaned_data.get('username')
-        if username_check(username):
-            filter_result = User.objects.filter(username=username)
-            if len(filter_result) > 0:
-                raise forms.ValidationError("username already taken.")
-            return username
-        else:
-            raise forms.ValidationError("username has illegal characters.")
+        username = self.cleaned_data.get('username')
+        filter_result = User.objects.filter(username=username)
+        if len(filter_result) > 0:
+            raise forms.ValidationError("username already taken.")
+        return username
 
-    def clean_tel(self):
-        tel = self.cleaned_data.get('tel')
-        if len(tel) = 11:
-            return password
-        else:
-            raise forms.ValidationError("Your must input 11 bit phone number.")
-        return password
-    def clean_right(self):
-        right = self.cleaned_data.get('right')
-        if len(right)<=4 and len(right)>=1:
-            return right
-        else:
-            raise forms.ValidationError("Your must input correct right number.")
-        return password
-    def clean_password(self):
-        password = self.cleaned_data.get('password')
-        if len(password) < 6:
-            raise forms.ValidationError("password too short.")
-        elif len(password) > 20:
-            raise forms.ValidationError("Your password is too long.")
-        return password
 
-    def clean_re_password(self):
-        password = self.cleaned_data.get('password')
-        re_password = self.cleaned_data.get('confirm')
-        if password and re_password and password != re_password:
-            raise forms.ValidationError("Password mismatch.")
-        return re_password
+def clean_tel(self):
+    tel = self.cleaned_data.get('tel')
+    if len(tel) == 11:
+        return tel
+    else:
+        raise forms.ValidationError("Your must input 11 bit phone number.")
+
+
+def clean_password(self):
+    password = self.cleaned_data.get('password')
+    if len(password) < 6:
+        raise forms.ValidationError("password too short.")
+    elif len(password) > 20:
+        raise forms.ValidationError("Your password is too long.")
+    return password
+
+
+def clean_re_password(self):
+    password = self.cleaned_data.get('password')
+    re_password = self.cleaned_data.get('confirm')
+    if password and re_password and password != re_password:
+        raise forms.ValidationError("Password mismatch.")
+    return re_password

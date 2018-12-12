@@ -1,11 +1,13 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
-from accounts.forms import LoginForm
+from accounts.forms import LoginForm, RegistrationForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer
+
+User = get_user_model()
 
 
 def index(request):
@@ -23,14 +25,14 @@ def user_register(request):
             username = uf.cleaned_data['username']
             tel = uf.cleaned_data['tel']
             password = uf.cleaned_data['password']
-            right=uf.cleaned_data['right']
-            user = Customer.objects.create_user(username=username, tel=tel, password=password)
+            user = User.objects.create_user(username=username, tel=tel, password=password)
             return render(request, 'login.html', {'error': 'create success'})
         else:
             return render(request, 'register.html', {'error': uf.errors})
     else:
         form = UserCreationForm()
-        return render(request, 'register.html',{'form': form})
+        return render(request, 'register.html',
+                      {'form': form})
 
 
 # 用户登录
@@ -45,7 +47,8 @@ def user_login(req):
                 login(req, user)
                 return HttpResponseRedirect('/profile')
             else:
-                return render(req, 'login.html', {"error": "Your Rango account is disabled."})   
+                return render(req, 'login.html', {"error": "Your Rango account is disabled."})
+
         else:
             return render(req, 'login.html', {"error": "password is invalid."})
     else:
