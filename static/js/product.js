@@ -1,6 +1,6 @@
 var $table;
 let queryUrl = '127.0.0.1/data/product';
-let pageSize;
+let pageSize = 20;
 
 //初始化bootstrap-table的内容
 function InitTable() {
@@ -30,7 +30,7 @@ function InitTable() {
         showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
         cardView: false,                    //是否显示详细视图
         detailView: false,                  //是否显示父子表
-        //得到查询的参数
+        //上传服务器的参数
         queryParams: function (params) {
             //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
             var temp = {

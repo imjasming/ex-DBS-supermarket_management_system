@@ -21,9 +21,9 @@ def user_register(request):
         if uf.is_valid():
             # 读取表单值
             username = uf.cleaned_data['username']
-            email = uf.cleaned_data['email']
+            tel = uf.cleaned_data['tel']
             password = uf.cleaned_data['password']
-            user = Customer.objects.create_user(username=username, email=email, password=password)
+            user = Customer.objects.create_user(username=username, tel=tel, password=password)
             return render(request, 'login.html', {'error': 'create success'})
         else:
             return render(request, 'register.html', {'error': uf.errors})
