@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'ex_DBS_supermarket_management_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'webdev',
+        'NAME': 'wevdev',
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST': '47.100.34.91',
