@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
-from accounts.models import Customer
+from accounts.models import Customer,Staff,MyBaseUser
 
 User = get_user_model()
 
@@ -22,11 +22,21 @@ def user_register(request):
         uf = UserCreationForm(request.POST)
         if uf.is_valid():
             # 读取表单值
-            username = uf.cleaned_data['username']
-            tel = uf.cleaned_data['tel']
-            password = uf.cleaned_data['password']
-            user = User.objects.create_user(username=username, tel=tel, password=password)
-            return HttpResponse("chenggong")
+            username=uf.cleaned_data['a_username']
+            tel = request.POST["tel"]
+            a_password = request.POST["a_password"]
+            right=request.POST["type"]
+            # 注册系统表
+            user = User.objects.create_user(username=username, password=a_password)
+            # 注册用户表
+            MyBaseUser.objects.create_user(username=username,password=a_password)
+            userID=MyBaseUser.objects.get(username=username)
+            if right=='customer':
+                 Customer.objects.create(CID=userID,name=username,tel=tel)
+            else:
+                Staff.objects.create(StaNO=userID, StaName=username,tel=tel,Position=right)
+            return HttpResponse("注册成功")
+            
         else:
             form = UserCreationForm()
             return render(request, 'register.html', {'form': form,'error': uf.errors})
@@ -48,16 +58,32 @@ def user_login(req):
                 login(req, user)
                 return HttpResponseRedirect('/profile')
             else:
-                return render(req, 'login.html', {"error": "Your Rango account is disabled."})
+                return render(req, 'login.html',{'title': 'Login', 
+                'form': form,"error": "Your Rango account is disabled."})
 
         else:
-            return render(req, 'login.html', {"error": "password is invalid."})
+             form = LoginForm()
+             return render(req, 'login.html',{'title': 'Login', 'form': form,"error": "password is invalid."})
+            
     else:
         form = LoginForm()
-        return render(req, 'login.html',
-                      {'title': 'Login', 'form': form})
+        return render(req, 'login.html',{'title': 'Login', 'form': form})
 
-
+def index_leader(request):
+    if request.user.is_authenticated:
+        #username=request.user.username
+        #right=User.objects.filter(username='username')
+        right=request.user.right
+        if right=='customer':
+            render()
+        elif right=='manmager':
+            pass
+        elif right=='stuff':
+            pass
+        else:
+            print("unknow right")
+    else:
+        return redirect('/login')
 def change_Goods(request):
     pass
 
