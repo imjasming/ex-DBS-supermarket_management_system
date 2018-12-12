@@ -12,7 +12,6 @@ User = get_user_model()
 def send_goods(request):
     goods = Goods.objects.all().values('PID', 'PName', 'price')
     data = json.dumps(list(goods))
-    print(data)
     return HttpResponse(data, content_type="application/json")
 
 
