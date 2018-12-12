@@ -1,13 +1,19 @@
 from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render
-
-# Create your views here.
+import json
 from django.http import HttpResponse, HttpResponseRedirect
 from accounts.forms import LoginForm, RegistrationForm
 from accounts.admin import UserCreationForm
-from accounts.models import Customer
+from accounts.models import Customer, Goods
 
 User = get_user_model()
+
+
+def send_goods(request):
+    goods = Goods.objects.all().values('PID', 'PName', 'price')
+    data = json.dumps(list(goods))
+    print(data)
+    return HttpResponse(data, content_type="application/json")
 
 
 def index(request):

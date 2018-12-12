@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head %}
-    <script type="text/javascript" src="{% static "/js/product.js" %}"></script>
+    <link rel="stylesheet"  href="{% static "/css/bootstrap-table.css" %}">
+    <script src="{% static "/js/bootstrap-table.js" %}"></script>
+    <script src="{% static "/js/bootstrap-table-zh-CN.js" %}"></script>
 {% endblock %}
-{% block menu_item %}
-{% endblock %}
+{% block menu_item %}{% endblock %}
 {% block content %}
-    <div id="banner" class="container pt-5">
+    <div id="banner" class="container pt-5 row">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2000">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -34,10 +35,9 @@
             </a>
         </div>
     </div>
-    <div class="container">
-        <table class="table table-hover" id="product">
-
+    <div class="container row">
+        <table class="table table-hover" id="product"{% comment %} data-toggle="table"{% endcomment %}>
         </table>
     </div>
-
+    <script type="text/javascript" src="{% static "/js/product.js" %}"></script>
 {% endblock %}

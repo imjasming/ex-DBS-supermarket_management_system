@@ -1,28 +1,35 @@
 var $table;
-let queryUrl = '127.0.0.1/data/product';
+let queryUrl = '/data/product';
 let pageSize = 20;
 
 //初始化bootstrap-table的内容
-function InitTable() {
+/*function InitTable() {
     //记录页面bootstrap-table全局变量$table，方便应用
                                                     //var queryUrl = '/TestUser/FindWithPager?rnd=' + Math.random()
-    $table = $('#product').bootstrapTable({
+
+};*/
+
+$('#product').bootstrapTable({
         url: queryUrl,                      //请求后台的URL（*）
         method: 'GET',                      //请求方式（*）
         //toolbar: '#toolbar',              //工具按钮用哪个容器
-        striped: true,                      //是否显示行间隔色
+        //striped: true,                      //是否显示行间隔色
         cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
         pagination: true,                   //是否显示分页（*）
         sortable: true,                     //是否启用排序
+        // sortClass:'pid',
         sortOrder: "asc",                   //排序方式
-        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
         pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
         pageSize: pageSize,                     //每页的记录行数（*）
         pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-        search: false,                      //是否显示表格搜索
-        strictSearch: true,
+        search: true,                      //是否显示表格搜索
+        searchTimeOut: 10000,
+        strictSearch: false,
         showColumns: true,                  //是否显示所有的列（选择显示的列）
+        showPaginationSwitch: true,
         showRefresh: true,                  //是否显示刷新按钮
+        trimOnSearch: true,
         minimumCountColumns: 2,             //最少允许的列数
         clickToSelect: true,                //是否启用点击选中行
         //height: 500,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
@@ -45,18 +52,18 @@ function InitTable() {
             checkbox: true,
             visible: true                  //是否显示复选框
         }, {
-            field: 'pname',
+            field: 'PID',
+            title: 'product id',
+            sortable: true
+        }, {
+            field: 'PName',
             title: 'product name',
             sortable: true
         }, {
             field: 'price',
             title: 'price',
-            sortable: true
-        }, {
-            field: 'num',
-            title: 'num',
             sortable: true,
-        },],
+        },]/*,
         onLoadSuccess: function () {
         },
         onLoadError: function () {
@@ -65,6 +72,5 @@ function InitTable() {
         onDblClickRow: function (row, $element) {
             var id = row.ID;
             EditViewById(id, 'view');
-        },
+        },*/
     });
-};
