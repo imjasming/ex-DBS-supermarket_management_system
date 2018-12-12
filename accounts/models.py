@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -30,7 +31,7 @@ class MyUserManager(BaseUserManager):
 
 class MyBaseUser(AbstractBaseUser):
     id = models.AutoField(primary_key=True)
-    right = models.IntegerField(default=0)
+    right = models.CharField(max_length=20)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -43,7 +44,7 @@ class MyBaseUser(AbstractBaseUser):
         return self.id
 
 
-class Branch(MyBaseUser):  # 分支超市模型
+class Branch(models.Model):  # 分支超市模型
     BID = models.OneToOneField(MyBaseUser, related_name="Branch_id", primary_key=True, on_delete=models.CASCADE)
     Bname = models.CharField(max_length=20)
     Baddress = models.CharField(max_length=20)
@@ -51,13 +52,13 @@ class Branch(MyBaseUser):  # 分支超市模型
     StaNO = models.IntegerField()  # 经理编号，经理是员工的一员，体现经理的存在是Staff表中的Position一项是manage
 
 
-class Customer(MyBaseUser):  # 客户端模型
+class Customer(models.Model):  # 客户端模型
     CID = models.OneToOneField(MyBaseUser, related_name="Client_id", primary_key=True, on_delete=models.CASCADE)
     username = models.CharField(max_length=20, unique=True)
     tel = models.IntegerField()
 
 
-class Staff(MyBaseUser):  # 员工模型
+class Staff(models.Model):  # 员工模型
     StaNO = models.OneToOneField(MyBaseUser, related_name="Stuff_id", primary_key=True, on_delete=models.CASCADE)
     SPassword = models.CharField(max_length=20)
     StaName = models.CharField(max_length=20)
