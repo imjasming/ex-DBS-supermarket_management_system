@@ -26,6 +26,9 @@ http-client.private.env.json
 
 /db.sqlite3
 /ex_DBS_supermarket_management_system/__pycache__/*.pyc
+ex_DBS_supermarket_management_system/__pycache__/*.pyc
 *.pyc
 /accounts/migrations/__pycache__/*.pyc
+accounts/migrations/__pycache__/*.pyc
 /accounts/__pycache__/*.pyc
+accounts/__pycache__/*.pyc
