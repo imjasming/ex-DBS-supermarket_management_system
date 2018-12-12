@@ -25,9 +25,7 @@ http-client.private.env.json
 **/.idea/shelf
 
 /db.sqlite3
-/account/_pycache_/*
-/_pycache_/*.pyc
-/ex_DBS_supermarket_management_system/_pycache_/*.pyc
+/ex_DBS_supermarket_management_system/__pycache__/*.pyc
 *.pyc
-/accounts/migrations/*.pyc
+/accounts/migrations/__pycache__/*.pyc
 /accounts/__pycache__/*.pyc
