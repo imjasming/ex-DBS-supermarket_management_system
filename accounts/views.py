@@ -10,9 +10,19 @@ User = get_user_model()
 
 
 def send_goods(request):
+    # ？branch=...&
+    # 传 good 所有属性和store的库存
     goods = Goods.objects.all().values('PID', 'PName', 'price')
     data = json.dumps(list(goods))
     return HttpResponse(data, content_type="application/json")
+
+
+def staff_send(request):
+    pass
+
+
+def get_product_from_supplier(request):
+    pass
 
 
 def index(request):
@@ -40,7 +50,7 @@ def user_register(request):
                 Customer.objects.create(CID=userID, name=username, tel=tel)
             else:
                 Staff.objects.create(StaNO=userID, StaName=username, tel=tel, Position=right)
-            return HttpResponse("注册成功")
+            return render(request, 'home.html', {'user': user, 'error': uf.errors})
 
         else:
             form = UserCreationForm()
@@ -62,7 +72,7 @@ def user_login(req):
             if user.is_active:
                 # 成功登录
                 login(req, user)
-                return HttpResponseRedirect('/profile')
+                return HttpResponseRedirect('/home', {'user': user})
             else:
                 return render(req, 'login.html', {'title': 'Login',
                                                   'form': form, "error": "Your Rango account is disabled."})

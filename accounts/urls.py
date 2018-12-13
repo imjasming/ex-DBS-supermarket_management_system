@@ -10,4 +10,5 @@ urlpatterns = [
      path('data/product', views.send_goods),
 
 
+
 ]
