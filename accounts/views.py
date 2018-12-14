@@ -4,7 +4,7 @@ from django.shortcuts import render
 import json
 from django.http import HttpResponse, HttpResponseRedirect
 
-from accounts.db_query import get_products
+from accounts.db_query import get_products, get_supply_goods
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer, Goods, Staff, MyBaseUser
@@ -13,10 +13,13 @@ from django.contrib import auth
 User = get_user_model()
 
 
+def supply_goods(request):
+    goods = get_supply_goods()
+    data = json.dumps(goods)
+    return HttpResponse(data, content_type="application/json")
+
+
 def send_goods(request):
-    # ？branch=...&
-    # 传 good 所有属性和store的库存
-    # 'PID', 'PName', 'price', 'num', 'branch'
     goods = get_products()
     data = json.dumps(goods)
     return HttpResponse(data, content_type="application/json")
@@ -43,7 +46,14 @@ def index_home(request):
 
 
 def index(request):
-    return render(request, 'home.html', )
+    # if user:
+    #     print(user.right)
+    return render(request, 'home.html', {'user': None})
+
+
+@login_required
+def index_supply(request):
+    return render(request, 'index_supply.html')
 
 
 # 用户注册方法
@@ -59,24 +69,24 @@ def user_register(request):
             a_password = request.POST["a_password"]
             right = request.POST["type"]
             # 注册系统表
-            user = User.objects.create_user(username=username, password=a_password, )
+            User.objects.create_user(username=username, password=a_password, )
             # 注册用户表
             user = MyBaseUser.objects.create_user(username=username, password=a_password, right=right)
             # userID = MyBaseUser.objects.get(username=username)
             if right == 'customer':
-                Customer.objects.create(CID=user.id, name=username, tel=tel)
+                Customer.objects.create(CID=user.username, name=username, tel=tel)
             else:
-                Staff.objects.create(StaNO=user.id, StaName=username, tel=tel, Position=right)
+                Staff.objects.create(StaNO=user.username, StaName=username, tel=tel, Position=right)
             auth.login(request, user)
             return HttpResponseRedirect('/home')
 
         else:
             form = UserCreationForm()
-            return render(request, 'register.html', {'form': form, 'error': uf.errors})
+            return render(request, 'register.html', {'form': form, 'error': uf.errors, 'user': None})
 
     else:
         form = UserCreationForm()
-        return render(request, 'register.html', {'form': form})
+        return render(request, 'register.html', {'form': form, 'user': None})
 
 
 # 用户登录
@@ -89,6 +99,7 @@ def user_login(req):
         if user:
             if user.is_active:
                 # 成功登录
+                user = MyBaseUser.objects.get(username=username)
                 login(req, user)
                 return HttpResponseRedirect('/home')
             else:
@@ -101,7 +112,7 @@ def user_login(req):
 
     else:
         form = LoginForm()
-        return render(req, 'login.html', {'title': 'Login', 'form': form})
+        return render(req, 'login.html', {'title': 'Login', 'form': form, 'user': None})
 
 
 @login_required

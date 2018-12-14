@@ -1,15 +1,7 @@
-var $table;
-let queryUrl = '/data/product';
+let queryUrl = '/data/supply';
 let pageSize = 20;
 
-//初始化bootstrap-table的内容
-/*function InitTable() {
-    //记录页面bootstrap-table全局变量$table，方便应用
-                                                    //var queryUrl = '/TestUser/FindWithPager?rnd=' + Math.random()
-
-};*/
-
-$('#product').bootstrapTable({
+let $table = $('#product').bootstrapTable({
     url: queryUrl,                      //请求后台的URL（*）
     method: 'GET',                      //请求方式（*）
     //toolbar: '#toolbar',              //工具按钮用哪个容器
@@ -26,6 +18,7 @@ $('#product').bootstrapTable({
     search: true,                      //是否显示表格搜索
     searchTimeOut: 10000,
     searchOnEnterKey: true,
+    singleSelect: true,
     strictSearch: false,
     showColumns: true,                  //是否显示所有的列（选择显示的列）
     showPaginationSwitch: true,
@@ -53,16 +46,16 @@ $('#product').bootstrapTable({
         checkbox: true,
         visible: true                  //是否显示复选框
     }, {
-        field: 'BName',
-        title: '分店',
+        field: 'sname',
+        title: '供货商',
         sortable: true
     }, {
-        field: 'PName',
+        field: 'sid',
+        title: '供货商ID',
+        sortable: true
+    }, {
+        field: 'pname',
         title: '产品名称',
-        sortable: true
-    }, {
-        field: 'price',
-        title: '价格',
         sortable: true,
     }, {
         field: 'num',
@@ -73,16 +66,7 @@ $('#product').bootstrapTable({
         title: '购买',
         formatter: operation,
     }
-    ]/*,
-        onLoadSuccess: function () {
-        },
-        onLoadError: function () {
-            showTips("data loading fail");
-        },
-        onDblClickRow: function (row, $element) {
-            var id = row.ID;
-            EditViewById(id, 'view');
-        },*/
+    ]
 });
 
 function operation(value, row, index) {

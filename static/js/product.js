@@ -1,4 +1,3 @@
-var $table;
 let queryUrl = '/data/product';
 let pageSize = 20;
 
@@ -9,7 +8,7 @@ let pageSize = 20;
 
 };*/
 
-$('#product').bootstrapTable({
+let $table = $('#product').bootstrapTable({
     url: queryUrl,                      //请求后台的URL（*）
     method: 'GET',                      //请求方式（*）
     //toolbar: '#toolbar',              //工具按钮用哪个容器

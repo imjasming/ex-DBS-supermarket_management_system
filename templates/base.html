@@ -33,7 +33,7 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
 
-            {% if not user.id is None %}
+            {% if not user is None and not user.id is None %}
                 {% if user.right != 'customer' %}
                     <li class="nav-item"><a class="nav-link" href="/manage">Staff manage</a></li>
                     {% if user.right == 'manager' %}
