@@ -9,4 +9,5 @@ urlpatterns = [
      path('data/product', views.send_goods),
      path('home', views.index_home),
      path('logout', views.index_logout),
+     path('buy', views.buy)
 ]

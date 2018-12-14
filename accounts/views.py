@@ -27,6 +27,12 @@ def get_product_from_supplier(request):
     pass
 
 
+def buy(request):
+    if request.method == 'GET':
+        if request.user.id is None:
+            return HttpResponseRedirect('/home')
+
+
 @login_required
 def index_home(request):
     user = request.user
