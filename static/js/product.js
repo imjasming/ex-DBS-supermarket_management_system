@@ -53,20 +53,24 @@ $('#product').bootstrapTable({
         checkbox: true,
         visible: true                  //是否显示复选框
     }, {
-        field: 'PID',
-        title: 'product id',
+        field: 'BName',
+        title: '分店',
         sortable: true
     }, {
         field: 'PName',
-        title: 'product name',
+        title: '产品名称',
         sortable: true
     }, {
         field: 'price',
-        title: 'price',
+        title: '价格',
+        sortable: true,
+    }, {
+        field: 'num',
+        title: '库存',
         sortable: true,
     }, {
         field: 'PID',
-        title: 'operation',
+        title: '购买',
         formatter: operation,
     }
     ]/*,
@@ -82,7 +86,6 @@ $('#product').bootstrapTable({
 });
 
 function operation(value, row, index) {
-    let uid = $('#user_id').getAttribute('data-id');
-    let html = '<form class="d-flex flex-row" action="/buy?pid='+ value + '&uid=' + '" <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count"></div><button type="submit" class="btn btn-primary">Buy</button></form>'
-    return html;
+    let uid = document.getElementById('user_id').getAttribute("data-id");
+    return '<form class="d-flex flex-row" action="/buy?pid=' + value + '&uid=' + uid + '"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count"></div><button type="submit" class="btn btn-primary">Buy</button></form>';
 }
