@@ -26,6 +26,7 @@ $('#product').bootstrapTable({
     search: true,                      //是否显示表格搜索
     searchTimeOut: 10000,
     searchOnEnterKey: true,
+    singleSelect: true,
     strictSearch: false,
     showColumns: true,                  //是否显示所有的列（选择显示的列）
     showPaginationSwitch: true,
@@ -87,5 +88,7 @@ $('#product').bootstrapTable({
 
 function operation(value, row, index) {
     let uid = document.getElementById('user_id').getAttribute("data-id");
-    return '<form class="d-flex flex-row" action="/buy?pid=' + value + '&uid=' + uid + '"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count"></div><button type="submit" class="btn btn-primary">Buy</button></form>';
+    let selected = JSON.stringify($table.bootstrapTable('getSelections'));
+    let bn = selected['BName'];
+    return '<form class="d-flex flex-row" action="/buy?pid=' + value + '&uid=' + uid + '&bname=' + bn + '"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count"></div><button type="submit" class="btn btn-primary">Buy</button></form>';
 }

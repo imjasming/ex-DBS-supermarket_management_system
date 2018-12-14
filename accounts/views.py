@@ -4,7 +4,7 @@ from django.shortcuts import render
 import json
 from django.http import HttpResponse, HttpResponseRedirect
 
-from accounts.db_get_products import get_products
+from accounts.db_query import get_products
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer, Goods, Staff, MyBaseUser
@@ -62,11 +62,11 @@ def user_register(request):
             user = User.objects.create_user(username=username, password=a_password, )
             # 注册用户表
             user = MyBaseUser.objects.create_user(username=username, password=a_password, right=right)
-            userID = MyBaseUser.objects.get(username=username)
+            # userID = MyBaseUser.objects.get(username=username)
             if right == 'customer':
-                Customer.objects.create(CID=userID, name=username, tel=tel)
+                Customer.objects.create(CID=user.id, name=username, tel=tel)
             else:
-                Staff.objects.create(StaNO=userID, StaName=username, tel=tel, Position=right)
+                Staff.objects.create(StaNO=user.id, StaName=username, tel=tel, Position=right)
             auth.login(request, user)
             return HttpResponseRedirect('/home')
 
