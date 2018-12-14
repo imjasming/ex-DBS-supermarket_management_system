@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 import json
 from django.http import HttpResponse, HttpResponseRedirect
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer, Goods, Staff, MyBaseUser
+from django.contrib import auth
 
 User = get_user_model()
 
@@ -25,8 +27,14 @@ def get_product_from_supplier(request):
     pass
 
 
+@login_required
+def index_home(request):
+    user = request.user
+    return render(request, 'home.html', {'user': user})
+
+
 def index(request):
-    return render(request, 'home.html')
+    return render(request, 'home.html', )
 
 
 # 用户注册方法
@@ -42,15 +50,16 @@ def user_register(request):
             a_password = request.POST["a_password"]
             right = request.POST["type"]
             # 注册系统表
-            user = User.objects.create_user(username=username, password=a_password)
+            user = User.objects.create_user(username=username, password=a_password, )
             # 注册用户表
-            MyBaseUser.objects.create_user(username=username, password=a_password)
+            user = MyBaseUser.objects.create_user(username=username, password=a_password, right=right)
             userID = MyBaseUser.objects.get(username=username)
             if right == 'customer':
                 Customer.objects.create(CID=userID, name=username, tel=tel)
             else:
                 Staff.objects.create(StaNO=userID, StaName=username, tel=tel, Position=right)
-            return render(request, 'home.html', {'user': user, 'error': uf.errors})
+            auth.login(request, user)
+            return HttpResponseRedirect('/home')
 
         else:
             form = UserCreationForm()
@@ -65,14 +74,14 @@ def user_register(request):
 def user_login(req):
     if req.method == 'POST':
         form = LoginForm(req.POST)
-        id = req.POST.get('id')
+        username = req.POST.get('username')
         password = req.POST.get('password')
-        user = authenticate(id=id, password=password)
+        user = authenticate(username=username, password=password)
         if user:
             if user.is_active:
                 # 成功登录
                 login(req, user)
-                return HttpResponseRedirect('/home', {'user': user})
+                return HttpResponseRedirect('/home')
             else:
                 return render(req, 'login.html', {'title': 'Login',
                                                   'form': form, "error": "Your Rango account is disabled."})
@@ -84,6 +93,12 @@ def user_login(req):
     else:
         form = LoginForm()
         return render(req, 'login.html', {'title': 'Login', 'form': form})
+
+
+@login_required
+def index_logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect("/login")
 
 
 def index_leader(request):
