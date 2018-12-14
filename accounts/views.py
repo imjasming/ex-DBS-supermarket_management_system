@@ -7,6 +7,7 @@ from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer, Goods, Staff, MyBaseUser
 from django.contrib import auth
+from django.db import connection
 
 User = get_user_model()
 
@@ -14,9 +15,16 @@ User = get_user_model()
 def send_goods(request):
     # ？branch=...&
     # 传 good 所有属性和store的库存
-    goods = Goods.objects.all().values('PID', 'PName', 'price')
-    data = json.dumps(list(goods))
-    return HttpResponse(data, content_type="application/json")
+    # 'PID', 'PName', 'price', 'num', 'branch'
+    cursor = connection.cursor()
+
+    cursor.execute("call quiry_goods();")
+
+    rows = cursor.fetchall()
+
+    # goods = Goods.objects.all().values('PID', 'PName', 'price')
+    # data = json.dumps(list(goods))
+    return HttpResponse(content_type="application/json")
 
 
 def staff_send(request):

@@ -82,6 +82,7 @@ $('#product').bootstrapTable({
 });
 
 function operation(value, row, index) {
-    let html = '<form class="d-flex flex-row" action="/buy?pid='+ value + '" <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count"></div><button type="submit" class="btn btn-primary">Buy</button></form>'
+    let uid = $('#user_id').getAttribute('data-id');
+    let html = '<form class="d-flex flex-row" action="/buy?pid='+ value + '&uid=' + '" <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count"></div><button type="submit" class="btn btn-primary">Buy</button></form>'
     return html;
 }

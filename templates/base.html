@@ -45,7 +45,7 @@
         </ul>
 
         {% if not user is None and user.is_authenticated %}
-            <a class="nav-link ml-md-auto d-none d-md-flex text-light" href="/profile">
+            <a id="user_id" data-id="{{ user.id }}" class="nav-link ml-md-auto d-none d-md-flex text-light" href="/profile">
                 User centre
             </a>
             <a class="nav-link ml-md-auto d-none d-md-flex text-light" href="/logout">
