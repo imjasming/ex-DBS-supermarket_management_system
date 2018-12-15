@@ -1,14 +1,15 @@
 from django.db import connection
+import json
 
 cursor = connection.cursor()
 
 
-def get_products():
+def get_goods_json():
     goods = []
     # 打开数据库连接
     try:
         # 使用 execute() 方法执行 SQL 查询
-        cursor.execute("call quiry_goods();")
+        cursor.execute("call query_goods();")
         # 使用获取单全部数据
         data_rows = cursor.fetchall()
 
@@ -18,10 +19,10 @@ def get_products():
     except Exception as e:
         raise e
 
-    return goods
+    return json.dumps(goods)
 
 
-def get_supply_goods():
+def get_supply_goods_json():
     goods = []
     # 打开数据库连接
     try:
@@ -36,7 +37,7 @@ def get_supply_goods():
     except Exception as e:
         raise e
 
-    return goods
+    return json.dumps(goods)
 
 
 def get_staff(bid, is_s_manager=False):

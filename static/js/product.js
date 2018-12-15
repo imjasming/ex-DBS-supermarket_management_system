@@ -1,13 +1,6 @@
 let queryUrl = '/data/product';
 let pageSize = 20;
 
-//初始化bootstrap-table的内容
-/*function InitTable() {
-    //记录页面bootstrap-table全局变量$table，方便应用
-                                                    //var queryUrl = '/TestUser/FindWithPager?rnd=' + Math.random()
-
-};*/
-
 let $table = $('#product').bootstrapTable({
     url: queryUrl,                      //请求后台的URL（*）
     method: 'GET',                      //请求方式（*）
@@ -70,6 +63,9 @@ let $table = $('#product').bootstrapTable({
         sortable: true,
     }, {
         field: 'PID',
+        title: 'pid',
+        visible: false,
+    }, {
         title: '购买',
         formatter: operation,
     }
@@ -86,9 +82,30 @@ let $table = $('#product').bootstrapTable({
 });
 
 function operation(value, row, index) {
-    let uid = document.getElementById('user_id').getAttribute("data-id");
+    //let selected = JSON.stringify($table.bootstrapTable('getRowByUniqueId', row));
+    let max = 100/*selected['num']*/;
+    return '<div class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count" min="1" max="' + max + '"></div><button id="buy" type="submit" class="btn btn-primary buy">Buy</button></div>';
+}
+
+let uid = document.getElementById('user_id').getAttribute("data-id");
+let buyUrl = "/buy";
+
+$('.buy').click(function () {
     let selected = JSON.stringify($table.bootstrapTable('getSelections'));
     let bn = selected['BName'];
-    let max = selected['num'];
-    return '<form class="d-flex flex-row" action="/buy?pid=' + value + '&uid=' + uid + '&bname=' + bn + '"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count" min="1" max="' + max + '"></div><button type="submit" class="btn btn-primary">Buy</button></form>';
-}
+    let num = selected['num'];
+    let pid = selected['PID'];
+
+    $.ajax({
+        url: buyUrl + '?uid=' + uid + "&pid=" + pid + '&bname=' + bn + '&num' + num,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            document.getElementById("msg").innerText = "购买成功";
+            $table.bootstrapTable('load', data);
+        },
+        error: function (data) {
+
+        }
+    })
+});

@@ -4,7 +4,9 @@ from django.shortcuts import render
 import json
 from django.http import HttpResponse, HttpResponseRedirect
 
-from accounts.db_query import get_products, get_supply_goods
+from accounts import db_manuplate
+from accounts.db_manuplate import buy_goods
+from accounts.db_query import get_supply_goods_json, get_goods_json
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer, Goods, Staff, MyBaseUser
@@ -14,18 +16,14 @@ User = get_user_model()
 
 
 def supply_goods(request):
-    goods = get_supply_goods()
-    data = json.dumps(goods)
-    return HttpResponse(data, content_type="application/json")
+    return HttpResponse(get_supply_goods_json(), content_type="application/json")
 
 
 def send_goods(request):
-    goods = get_products()
-    data = json.dumps(goods)
-    return HttpResponse(data, content_type="application/json")
+    return HttpResponse(get_goods_json(), content_type="application/json")
 
 
-def staff_send(request):
+def send_staff(request):
     pass
 
 
@@ -38,11 +36,19 @@ def buy(request):
     if request.method == 'GET':
         if request.user.id is None:
             return HttpResponseRedirect('/home')
+        else:
+            uid = request.GET['uid']
+            pid = request.GET['pid']
+            bname = request.GET['bn']
+            num = request.GET['num']
+            buy_goods(pid, bname, num, uid)
+            return HttpResponse(get_goods_json())
 
 
 def add(request):
     if request.method == 'GET':
         pass
+
 
 @login_required
 def index_home(request):
