@@ -13,9 +13,6 @@ class UserCreationForm(forms.ModelForm):
     a_username = forms.CharField(label='Username', max_length=20, min_length=6,
                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'username'}),
                                error_messages={'required': 'username already taken.', })
-    name = forms.CharField(label='name', max_length=20, min_length=1,
-                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'name'}),
-                               error_messages={'required': 'name need.', })
     a_password = forms.CharField(label='Password', min_length=6, max_length=18,
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
     re_password = forms.CharField(label='Password confirmation', max_length=18, min_length=6,

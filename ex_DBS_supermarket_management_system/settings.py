@@ -129,6 +129,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/'),
 ]
 
+AUTH_USER_MODEL = 'accounts.MyBaseUser'
+
 LOGIN_URL = '/login'
 
 TIME_FORMAT = '%Y-%m-%d %H:%M:%S'

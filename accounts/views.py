@@ -58,8 +58,7 @@ def index_supply(request):
 
 # 用户注册方法
 def user_register(request):
-    Method = request.method
-    if Method == 'POST':
+    if request.method == 'POST':
         # 如果有post提交的动作，就将post中的数据赋值给uf，供该函数使用
         uf = UserCreationForm(request.POST)
         if uf.is_valid():
@@ -68,21 +67,19 @@ def user_register(request):
             tel = request.POST["tel"]
             a_password = request.POST["a_password"]
             right = request.POST["type"]
-            # 注册系统表
-            User.objects.create_user(username=username, password=a_password, )
             # 注册用户表
             user = MyBaseUser.objects.create_user(username=username, password=a_password, right=right)
             # userID = MyBaseUser.objects.get(username=username)
             if right == 'customer':
-                Customer.objects.create(CID=user.username, name=username, tel=tel)
+                Customer.objects.create(CID=user, name=username, tel=tel)
             else:
-                Staff.objects.create(StaNO=user.username, StaName=username, tel=tel, Position=right)
+                Staff.objects.create(StaNO=user, StaName=username, tel=tel, Position=right)
             auth.login(request, user)
+            request.__setattr__('user', user)
             return HttpResponseRedirect('/home')
 
         else:
-            form = UserCreationForm()
-            return render(request, 'register.html', {'form': form, 'error': uf.errors, 'user': None})
+            return render(request, 'register.html', {'form': uf, 'error': uf.errors, 'user': None})
 
     else:
         form = UserCreationForm()
@@ -95,15 +92,16 @@ def user_login(req):
         form = LoginForm(req.POST)
         username = req.POST.get('username')
         password = req.POST.get('password')
-        user = authenticate(username=username, password=password)
+        user = authenticate(request=req, username=username, password=password)
         if user:
             if user.is_active:
                 # 成功登录
                 user = MyBaseUser.objects.get(username=username)
-                login(req, user)
+                auth.login(req, user)
+                req.__setattr__('user', user)
                 return HttpResponseRedirect('/home')
             else:
-                return render(req, 'login.html', {'title': 'Login',
+                return render(req, 'login.html', {'title': 'Login', 'user': None,
                                                   'form': form, "error": "Your Rango account is disabled."})
 
         else:

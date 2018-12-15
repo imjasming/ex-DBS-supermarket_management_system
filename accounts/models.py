@@ -30,7 +30,7 @@ class MyBaseUserManager(BaseUserManager):
 
 
 class MyBaseUser(AbstractBaseUser):
-    username = models.CharField(primary_key=True, max_length=20)
+    username = models.CharField(max_length=20, unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     right = models.CharField(max_length=10)
@@ -41,7 +41,7 @@ class MyBaseUser(AbstractBaseUser):
         return self.username
 
     def get_id(self):
-        return self.username
+        return self.id
 
 
 class BranchManager(models.Manager):
@@ -64,7 +64,7 @@ class BranchManager(models.Manager):
 
 class Branch(models.Model):  # 分支超市模型
     BID = models.AutoField(primary_key=True)  # 经理编号，经理是员工的一员，
-    StaNO = models.OneToOneField(MyBaseUser, related_name="Branch_id", on_delete=models.CASCADE)
+    num_of_staff = models.IntegerField(default=0)
     Bname = models.CharField(max_length=255)
     Baddress = models.CharField(max_length=255)
     Tel = models.BigIntegerField()
@@ -94,7 +94,7 @@ class CustomerManager(models.Manager):
 
 
 class Customer(models.Model):  # 客户端模型
-    CID = models.OneToOneField(MyBaseUser, related_name="Client_id", primary_key=True, on_delete=models.CASCADE)
+    CID = models.OneToOneField(MyBaseUser, related_name="CID", primary_key=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, unique=True)
     tel = models.BigIntegerField()
     address = models.CharField(max_length=255, null=True)
