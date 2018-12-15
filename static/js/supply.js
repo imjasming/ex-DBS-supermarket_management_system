@@ -1,7 +1,7 @@
 let queryUrl = '/data/supply';
 let pageSize = 20;
 
-let $table = $('#product').bootstrapTable({
+let $table = $('#supply').bootstrapTable({
     url: queryUrl,                      //请求后台的URL（*）
     method: 'GET',                      //请求方式（*）
     //toolbar: '#toolbar',              //工具按钮用哪个容器
@@ -58,6 +58,10 @@ let $table = $('#product').bootstrapTable({
         title: '产品名称',
         sortable: true,
     }, {
+        field: 'price',
+        title: '价格',
+        sortable: true,
+    }, {
         field: 'num',
         title: '库存',
         sortable: true,
@@ -71,5 +75,13 @@ let $table = $('#product').bootstrapTable({
 
 function operation(value, row, index) {
     let uid = document.getElementById('user_id').getAttribute("data-id");
-    return '<form class="d-flex flex-row" action="/buy?pid=' + value + '&uid=' + uid + '"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count"></div><button type="submit" class="btn btn-primary">Buy</button></form>';
+    let selected = JSON.stringify($table.bootstrapTable('getSelections'));
+    let sid = selected['sid'];
+    let max = selected['num'];
+    let price = selected['price'];
+    return '<form class="d-flex flex-row" action="/add?pid=' + value + '&uid=' + uid + '&price=' + price +'&sid=' + sid + '"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count" min="1" max="' + max + '"></div><button type="submit" class="btn btn-primary">Buy</button></form>';
+}
+
+function validation() {
+
 }

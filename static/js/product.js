@@ -89,5 +89,6 @@ function operation(value, row, index) {
     let uid = document.getElementById('user_id').getAttribute("data-id");
     let selected = JSON.stringify($table.bootstrapTable('getSelections'));
     let bn = selected['BName'];
-    return '<form class="d-flex flex-row" action="/buy?pid=' + value + '&uid=' + uid + '&bname=' + bn + '"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count"></div><button type="submit" class="btn btn-primary">Buy</button></form>';
+    let max = selected['num'];
+    return '<form class="d-flex flex-row" action="/buy?pid=' + value + '&uid=' + uid + '&bname=' + bn + '"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count" min="1" max="' + max + '"></div><button type="submit" class="btn btn-primary">Buy</button></form>';
 }

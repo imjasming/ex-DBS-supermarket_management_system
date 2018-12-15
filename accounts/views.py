@@ -33,16 +33,27 @@ def get_product_from_supplier(request):
     pass
 
 
+@login_required
 def buy(request):
     if request.method == 'GET':
         if request.user.id is None:
             return HttpResponseRedirect('/home')
 
 
+def add(request):
+    if request.method == 'GET':
+        pass
+
 @login_required
 def index_home(request):
     user = request.user
+    print(user.right)
     return render(request, 'home.html', {'user': user})
+
+
+@login_required
+def index_supply(request):
+    return render(request, 'index_supply.html', {'user': request.user})
 
 
 def index(request):

@@ -49,7 +49,7 @@
         {% if not user is None and user.is_authenticated %}
             <a id="user_id" data-id="{{ user.id }}" class="nav-link ml-md-auto d-none d-md-flex text-light"
                href="/profile">
-                User centre({{ user.id }})
+                User centre(id: {{ user.id }})
             </a>
             <a class="nav-link ml-md-auto d-none d-md-flex text-light" href="/logout">
                 Sign out

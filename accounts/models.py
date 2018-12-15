@@ -208,7 +208,7 @@ class storeManager(models.Manager):
 
 
 class store(models.Model):  # 商品存分支超市的仓库的模型
-    BID = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    BID = models.ForeignKey(Branch, on_delete=models.CASCADE)
     PID = models.ForeignKey(Goods, on_delete=models.CASCADE)
     num = models.IntegerField()
     price = models.FloatField()

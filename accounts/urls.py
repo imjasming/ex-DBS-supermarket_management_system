@@ -11,5 +11,6 @@ urlpatterns = [
      path('home', views.index_home),
      path('logout', views.index_logout),
      path('buy', views.buy),
-     path('supply', views.supply_goods),
+     path('add', views.add),
+     path('supply', views.index_supply),
 ]
