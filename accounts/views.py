@@ -42,8 +42,11 @@ def buy(request):
             pid = request.GET['pid']
             bname = request.GET['bname']
             num = request.GET['num']
-            buy_goods(pid, bname, num, uid)
-            return HttpResponse(get_goods_json())
+            try:
+                buy_goods(pid, bname, num, uid)
+                return HttpResponse(get_goods_json())
+            except Exception as e:
+                raise e
 
 
 def add(request):

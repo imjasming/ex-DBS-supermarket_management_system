@@ -110,9 +110,13 @@ function buy(e) {
             document.getElementById("msg").innerText = "购买成功";
             $table.bootstrapTable('load', data);
         },
-        error: function (data) {
-            document.getElementById("msg").innerText = "未登录，跳转到登录界面。。。";
-            redirectTo('/login')
+        error: function (error) {
+            if (error['status'] == '500') {
+                document.getElementById("msg").innerText = "服务器数据异常";
+            } else {
+                document.getElementById("msg").innerText = "未登录，跳转到登录界面。。。";
+                redirectTo('/login')
+            }
         }
     })
 }

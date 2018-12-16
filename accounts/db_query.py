@@ -41,7 +41,7 @@ def get_supply_goods_json():
     return json.dumps(goods)
 
 
-def get_staff(bid, is_s_manager=False):
+def get_staff_json(bid, is_s_manager=False):
     staffs = []
     if is_s_manager:
         try:
@@ -57,7 +57,6 @@ def get_staff(bid, is_s_manager=False):
         except Exception as e:
             raise e
 
-        return staffs
     else:
         try:
             # 使用 execute() 方法执行 SQL 查询
@@ -72,4 +71,4 @@ def get_staff(bid, is_s_manager=False):
         except Exception as e:
             raise e
 
-        return staffs
+    return json.dumps(staffs)
