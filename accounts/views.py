@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllow
 
 from accounts import db_manuplate
 from accounts.db_manuplate import buy_goods
-from accounts.db_query import get_supply_goods_json, get_goods_json
+from accounts.db_query import get_supply_goods_json, get_goods_json, get_staff_json
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer, Goods, Staff, MyBaseUser
@@ -16,6 +16,7 @@ from django.contrib import auth
 User = get_user_model()
 
 
+@login_required
 def supply_goods(request):
     return HttpResponse(get_supply_goods_json(), content_type="application/json")
 
@@ -25,7 +26,9 @@ def send_goods(request):
 
 
 def send_staff(request):
-    pass
+    user = request.user
+    if user.right == 'smanager':
+        return HttpResponse(get_staff_json(), content_type="application/json")
 
 
 def get_product_from_supplier(request):

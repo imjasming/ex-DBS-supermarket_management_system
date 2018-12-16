@@ -261,6 +261,7 @@ class Record(models.Model):  # customer购买记录模型
     BID = models.ForeignKey(Branch, on_delete=models.CASCADE)
     Time = models.DateTimeField(auto_now=False)
     price = models.FloatField()
+    num = models.IntegerField(default=1)
 
 
 class sellManager(models.Manager):
