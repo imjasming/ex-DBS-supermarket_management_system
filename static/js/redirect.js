@@ -1,5 +1,4 @@
 function redirectTo(url) {
-    window.onload = function () {
         //倒计时跳转页面
         var i = 2;
         var num = 0;
@@ -10,5 +9,4 @@ function redirectTo(url) {
                 location = url;
             }
         }, 500)
-    }
 }

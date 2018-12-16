@@ -111,7 +111,8 @@ function buy(e) {
             $table.bootstrapTable('load', data);
         },
         error: function (data) {
-            location = '/login';
+            document.getElementById("msg").innerText = "未登录，跳转到登录界面。。。";
+            redirectTo('/login')
         }
     })
-};
+}
