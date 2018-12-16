@@ -32,7 +32,7 @@ let params = [
         formatter: operation,
     }];
 
-$table = create_table(queryUrl, params);
+$table = createTable(queryUrl, params, '#table');
 
 function operation(value, row, index) {
     //let selected = JSON.stringify($table.bootstrapTable('getRowByUniqueId', row));

@@ -1,7 +1,7 @@
 let pageSize = 20;
 
-function create_table(url, param) {
-    return $('#product').bootstrapTable({
+function createTable(url, param, eId) {
+    return $(eId).bootstrapTable({
         url: url,                      //请求后台的URL（*）
         method: 'GET',                      //请求方式（*）
         cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -39,4 +39,14 @@ function create_table(url, param) {
         },
         columns: param,
     });
+}
+
+function getTableRow(element) {
+    let a = element.getAttribute("data-row");
+    return $table.bootstrapTable('getRowByUniqueId', parseInt(a));
+}
+
+function getRowID(element) {
+    let a = element.getAttribute("data-row");
+    return parseInt(a);
 }
