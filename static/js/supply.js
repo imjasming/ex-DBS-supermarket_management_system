@@ -33,12 +33,12 @@ let params = [
 $table = createTable(queryUrl, params, '#table');
 
 function operation(value, row, index) {
-    let uid = document.getElementById('user_id').getAttribute("data-id");
-    let selected = JSON.stringify($table.bootstrapTable('getSelections'));
-    let sid = selected['sid'];
-    let max = selected['num'];
-    let price = selected['price'];
-    return '<form class="d-flex flex-row" action="/add?pid=' + value + '&uid=' + uid + '&price=' + price + '&sid=' + sid + '"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count" min="1" max="' + max + '"></div><button type="submit" class="btn btn-primary">Buy</button></form>';
+    let max = row['num'];
+    let rowId = row['row'];
+    if (max <= 0) {
+        return '<div class="d-flex flex-row"> <div class="col"> <input disabled type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button disabled id="buy" onclick="buy(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
+    }
+    return '<div class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button id="buy" onclick="buy(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
 }
 
 function validation() {

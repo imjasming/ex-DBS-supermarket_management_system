@@ -5,7 +5,21 @@ cursor = connection.cursor()
 
 
 def get_branch_goods_json(uid):
-    pass
+    goods = []
+    try:
+        statement = "call query_goods_branch(%s);" % uid
+        cursor.execute(statement)
+        data_rows = cursor.fetchall()
+
+        i = 0
+        for row in data_rows:
+            r = {'PName': row[0], 'Pid': row[1], 'price': row[2], 'num': row[3], 'BName': row[4], 'row': i}
+            goods.append(r)
+            i += 1
+    except Exception as e:
+        raise e
+
+    return json.dumps(goods)
 
 
 def get_goods_json():

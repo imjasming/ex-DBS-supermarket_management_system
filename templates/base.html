@@ -35,9 +35,10 @@
 
             {% if not user is None and not user.id is None %}
                 {% if user.right != 'customer' %}
-                    <li class="nav-item"><a class="nav-link" href="/manage">Staff manage</a></li>
                     {% if user.right == 'manager' %}
+                        <li class="nav-item"><a class="nav-link" href="/index-product-manage">Product management</a></li>
                         <li class="nav-item"><a class="nav-link" href="/supply">Supply</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/index-staff">Staff management</a></li>
                     {% endif %}
                 {% endif %}
             {% endif %}

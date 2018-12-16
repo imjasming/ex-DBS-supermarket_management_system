@@ -3,11 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render
 import json
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseBadRequest
 
 from accounts import db_manuplate
 from accounts.db_manuplate import buy_goods
-from accounts.db_query import get_supply_goods_json, get_goods_json, get_staff_json
+from accounts.db_query import get_supply_goods_json, get_goods_json, get_staff_json, get_branch_goods_json
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer, Goods, Staff, MyBaseUser
@@ -17,12 +17,20 @@ User = get_user_model()
 
 
 @login_required
-def supply_goods(request):
+def send_supply_goods(request):
     return HttpResponse(get_supply_goods_json(), content_type="application/json")
 
 
+@login_required
 def send_goods(request):
     return HttpResponse(get_goods_json(), content_type="application/json")
+
+
+@login_required
+def send_goods_branch(request):
+    if request.user.id is None:
+        return HttpResponseBadRequest()
+    return HttpResponse(get_branch_goods_json(request.user.id), content_type="application/json")
 
 
 @login_required
@@ -30,10 +38,6 @@ def send_staff(request):
     user = request.user
     if user.right == 'smanager':
         return HttpResponse(get_staff_json(), content_type="application/json")
-
-
-def get_product_from_supplier(request):
-    pass
 
 
 @login_required
@@ -55,7 +59,17 @@ def buy(request):
 
 @login_required
 def change_price(request):
-    pass
+    if request.user.id is None:
+        return HttpResponseNotAllowed('change_price')
+    else:
+        pid = request.GET['pid']
+        bname = request.GET['bname']
+        price = request.GET['price']
+        try:
+            change_price(bname, pid, price)
+            return HttpResponse(get_goods_json())
+        except Exception as e:
+            raise e
 
 
 def add(request):
@@ -84,6 +98,10 @@ def index_supply(request):
 @login_required
 def index_product_manage(request):
     user = request.user
+    if user.right == 'manager':
+        return render(request, 'index_product_op.html', {'user': user})
+    elif user.right == 'customer':
+        return HttpResponseNotAllowed('')
 
 
 @login_required
