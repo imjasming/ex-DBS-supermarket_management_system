@@ -25,6 +25,7 @@ def send_goods(request):
     return HttpResponse(get_goods_json(), content_type="application/json")
 
 
+@login_required
 def send_staff(request):
     user = request.user
     if user.right == 'smanager':
@@ -52,6 +53,11 @@ def buy(request):
                 raise e
 
 
+@login_required
+def change_price(request):
+    pass
+
+
 def add(request):
     if request.method == 'GET':
         pass
@@ -73,6 +79,11 @@ def index_home(request):
 @login_required
 def index_supply(request):
     return render(request, 'index_supply.html', {'user': request.user})
+
+
+@login_required
+def index_product_manage(request):
+    user = request.user
 
 
 @login_required

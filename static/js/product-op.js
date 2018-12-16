@@ -29,7 +29,7 @@ let params = [
         formatter: operation,
     },];
 
-let queryUrl = '/change/price';
+let queryUrl = '/data/product';
 $table = createTable(queryUrl, params, '#table');
 
 function operation(value, row, index) {

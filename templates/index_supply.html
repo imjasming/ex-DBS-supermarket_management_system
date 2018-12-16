@@ -1,6 +1,8 @@
 {% extends "home.html" %}
-{% block content %}
-    <table id="supply" class="table table-hover"></table>
+{% block banner %}{% endblock %}
+{% block script %}
     {% load static %}
+    <script type="text/javascript" src="{% static "/js/table.js" %}"></script>
     <script type="text/javascript" src="{% static "/js/supply.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/redirect.js" %}"></script>
 {% endblock %}

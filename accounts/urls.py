@@ -12,7 +12,9 @@ urlpatterns = [
      path('home', views.index_home),
      path('logout', views.index_logout),
      path('buy', views.buy),
+     path('change/price', views.change_price),
      path('add', views.add),
      path('supply', views.index_supply),
      path('index-stuff', views.index_staff),
+     path('index-product-manage', views.index_product_manage)
 ]

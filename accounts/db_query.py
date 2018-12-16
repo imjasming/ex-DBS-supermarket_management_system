@@ -4,6 +4,10 @@ import json
 cursor = connection.cursor()
 
 
+def get_branch_goods_json(uid):
+    pass
+
+
 def get_goods_json():
     goods = []
     try:
