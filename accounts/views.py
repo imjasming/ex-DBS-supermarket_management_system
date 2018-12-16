@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render
 import json
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
 
 from accounts import db_manuplate
 from accounts.db_manuplate import buy_goods
@@ -35,11 +36,11 @@ def get_product_from_supplier(request):
 def buy(request):
     if request.method == 'GET':
         if request.user.id is None:
-            return HttpResponseRedirect('/home')
+            return HttpResponseNotAllowed('/home')
         else:
-            uid = request.GET['uid']
+            uid = request.user.id
             pid = request.GET['pid']
-            bname = request.GET['bn']
+            bname = request.GET['bname']
             num = request.GET['num']
             buy_goods(pid, bname, num, uid)
             return HttpResponse(get_goods_json())
@@ -50,11 +51,17 @@ def add(request):
         pass
 
 
+def index(request):
+    user = request.user
+    if user is None or user is AnonymousUser:
+        return render(request, 'home.html', {'user': None})
+    else:
+        return render(request, 'home.html', {'user': user})
+
+
 @login_required
 def index_home(request):
-    user = request.user
-    print(user.right)
-    return render(request, 'home.html', {'user': user})
+    return render(request, 'home.html', {'user': request.user})
 
 
 @login_required
@@ -62,15 +69,9 @@ def index_supply(request):
     return render(request, 'index_supply.html', {'user': request.user})
 
 
-def index(request):
-    # if user:
-    #     print(user.right)
-    return render(request, 'home.html', {'user': None})
-
-
 @login_required
-def index_supply(request):
-    return render(request, 'index_supply.html')
+def index_staff(request):
+    pass
 
 
 # 用户注册方法

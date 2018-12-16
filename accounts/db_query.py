@@ -13,8 +13,9 @@ def get_goods_json():
         # 使用获取单全部数据
         data_rows = cursor.fetchall()
 
+        i = 0
         for row in data_rows:
-            r = {'PName': row[0], 'Pid': row[1], 'price': row[2], 'num': row[3], 'BName': row[4]}
+            r = {'PName': row[0], 'Pid': row[1], 'price': row[2], 'num': row[3], 'BName': row[4], 'row': ++i}
             goods.append(r)
     except Exception as e:
         raise e

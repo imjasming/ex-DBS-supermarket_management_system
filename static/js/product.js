@@ -27,7 +27,7 @@ let $table = $('#product').bootstrapTable({
     minimumCountColumns: 2,             //最少允许的列数
     clickToSelect: true,                //是否启用点击选中行
     //height: 500,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-    uniqueId: "PID",                     //每一行的唯一标识，一般为主键列
+    uniqueId: "row",                     //每一行的唯一标识，一般为主键列
     //showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
     cardView: false,                    //是否显示详细视图
     detailView: false,                  //是否显示父子表
@@ -66,6 +66,10 @@ let $table = $('#product').bootstrapTable({
         title: 'pid',
         visible: false,
     }, {
+        field: 'row',
+        title: 'row',
+        visible: false,
+    }, {
         title: '购买',
         formatter: operation,
     }
@@ -83,21 +87,23 @@ let $table = $('#product').bootstrapTable({
 
 function operation(value, row, index) {
     //let selected = JSON.stringify($table.bootstrapTable('getRowByUniqueId', row));
-    let max = 100/*selected['num']*/;
-    return '<div class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count" min="1" max="' + max + '"></div><button id="buy" type="submit" class="btn btn-primary buy">Buy</button></div>';
+    let r = $table.bootstrapTable('getRowByUniqueId', index);
+    let max = row['num'];
+    return '<div class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num" placeholder="count" min="1" max="' + max + '"></div><button id="buy" onclick="buy(this)" type="submit" class="btn btn-primary buy" data-row="' + row['row'] + '">Buy</button></div>';
 }
 
 let uid = document.getElementById('user_id').getAttribute("data-id");
 let buyUrl = "/buy";
 
-$('.buy').click(function () {
-    let selected = JSON.stringify($table.bootstrapTable('getSelections'));
-    let bn = selected['BName'];
-    let num = selected['num'];
-    let pid = selected['PID'];
+function buy(e) {
+    let a = e.getAttribute("data-row");
+    let row = $table.bootstrapTable('getRowByUniqueId', parseInt(a));
+    let bn = row["BName"];
+    let num = row['num'];
+    let pid = row['Pid'];
 
     $.ajax({
-        url: buyUrl + '?uid=' + uid + "&pid=" + pid + '&bname=' + bn + '&num' + num,
+        url: buyUrl + '?uid=' + uid + "&pid=" + pid + '&bname=' + bn + '&num=' + num,
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -105,7 +111,7 @@ $('.buy').click(function () {
             $table.bootstrapTable('load', data);
         },
         error: function (data) {
-
+            location = '/login';
         }
     })
-});
+};

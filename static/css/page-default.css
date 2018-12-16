@@ -9,7 +9,7 @@ a{
 }
 
 .blur {
-    background-color: hsla(0, 0%, 100%, .4);
+    background-color: #fff;
     filter: blur(4px);
 }
 
