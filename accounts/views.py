@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseBadRequest
 
 from accounts import db_manuplate
-from accounts.db_manuplate import buy_goods, change_goods_price, request_fire_staff
+from accounts.db_manuplate import buy_goods, change_goods_price, request_fire_staff, request_add_goods
 from accounts.db_query import get_supply_goods_json, get_goods_json, get_staff_json, get_branch_goods_json
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
@@ -60,6 +60,22 @@ def buy(request):
 
 
 @login_required
+def add(request):
+    user = request.user
+    if user.right == 'customer':
+        return HttpResponseNotAllowed('change staff')
+    else:
+        try:
+            pid = request.GET['pid']
+            sid = request.GET['sid']
+            num = request.GET['num']
+            request_add_goods(pid, user.id, num, sid)
+            return HttpResponse(get_supply_goods_json())
+        except Exception as e:
+            raise e
+
+
+@login_required
 def change_price(request):
     if request.user.id is None:
         return HttpResponseNotAllowed('change_price')
@@ -85,11 +101,6 @@ def change_staff(request):
             return HttpResponse(get_staff_json(request.user.id), content_type="application/json")
         except Exception as e:
             raise e
-
-
-def add(request):
-    if request.method == 'GET':
-        pass
 
 
 def index(request):
@@ -189,48 +200,3 @@ def user_login(req):
 def index_logout(request):
     auth.logout(request)
     return HttpResponseRedirect("/login")
-
-
-def index_leader(request):
-    if request.user.is_authenticated:
-        # username=request.user.username
-        # right=User.objects.filter(username='username')
-        right = request.user.right
-        if right == 'customer':
-            render()
-        elif right == 'manmager':
-            pass
-        elif right == 'stuff':
-            pass
-        else:
-            print("unknow right")
-    else:
-        return HttpResponseRedirect('/login')
-
-
-def change_Goods(request):
-    pass
-
-
-def change_Supplier(request):
-    pass
-
-
-def change_repository(request):
-    pass
-
-
-def change_store(request):
-    pass
-
-
-def change_Supply(request):
-    pass
-
-
-def change_Record(request):
-    pass
-
-
-def change_sell(request):
-    pass

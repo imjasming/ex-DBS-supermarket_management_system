@@ -18,3 +18,8 @@ def change_goods_price(bname, pid, price):
 def request_fire_staff(uid, staff_no):
     statement = "call request_staff_branch(%s,%s);" % (uid, staff_no)
     cursor.execute(statement)
+
+
+def request_add_goods(pid, uid, num, sid):
+    statement = "call request_buygoods_branch(%s,%d,'%s',%s);" % (pid, uid, num, sid)
+    cursor.execute(statement)

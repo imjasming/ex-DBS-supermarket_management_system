@@ -54,6 +54,7 @@ function buy(e) {
     let num = row['row'];
     let count = parseInt($('#num' + a).val());
     let pid = row['Pid'];
+    let price = row['price'];
 
     if (count > num || num <= 0) {
         document.getElementById("msg").innerText = "请输入合理的购买数量";
@@ -66,7 +67,7 @@ function buy(e) {
         dataType: 'json',
         success: function (data) {
             let date = new Date();
-            document.getElementById("msg").innerText = '[' + date.toLocaleString() + ']' + row['PName'] + ", 数量：" + count + ",购买成功";
+            document.getElementById("msg").innerText = '[' + date.toLocaleString() + ']' + row['PName'] + ", 数量：" + count + ",购买成功,花费：" + price * count;
             $table.bootstrapTable('load', data);
         },
         error: function (error) {

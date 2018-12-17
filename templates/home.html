@@ -46,8 +46,9 @@
         <table class="table table-hover" id="table">
         </table>
     </div>
-        <script type="text/javascript" src="{% static "/js/table.js" %}"></script>
-        <script type="text/javascript" src="{% static "/js/redirect.js" %}"></script>
+    {% block table2 %}{% endblock %}
+    <script type="text/javascript" src="{% static "/js/table.js" %}"></script>
+    <script type="text/javascript" src="{% static "/js/redirect.js" %}"></script>
     {% block script %}
         <script type="text/javascript" src="{% static "/js/product.js" %}"></script>
     {% endblock %}

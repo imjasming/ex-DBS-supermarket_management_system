@@ -24,8 +24,11 @@ let params = [
         title: '库存',
         sortable: true,
     }, {
-        field: 'PID',
-        title: '购买',
+        field: 'pid',
+        title: 'pid',
+        visible: false,
+    }, {
+        title: '进货',
         formatter: operation,
     }
 ];
@@ -41,13 +44,15 @@ function operation(value, row, index) {
     return '<div class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button id="buy" onclick="addFromSupply(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
 }
 
+let addUrl = "/add";
+
 function addFromSupply(e) {
     let a = e.getAttribute("data-row");
     let row = $table.bootstrapTable('getRowByUniqueId', parseInt(a));
-    let bn = row["BName"];
-    let num = row['row'];
+    let sid = row["sid"];
+    let num = row['num'];
     let count = parseInt($('#num' + a).val());
-    let pid = row['Pid'];
+    let pid = row['pid'];
 
     if (count > num || num <= 0) {
         document.getElementById("msg").innerText = "请输入合理的购买数量";
@@ -55,12 +60,12 @@ function addFromSupply(e) {
     }
 
     $.ajax({
-        url: buyUrl + '?uid=' + uid + "&pid=" + pid + '&bname=' + bn + '&num=' + count,
+        url: addUrl + '?pid=' + pid + '&sid=' + sid + '&num=' + count,
         type: 'GET',
         dataType: 'json',
         success: function (data) {
             let date = new Date();
-            document.getElementById("msg").innerText = '[' + date.toLocaleString() + ']' + row['PName'] + ", 数量：" + count + ",购买成功";
+            document.getElementById("msg").innerText = '[' + date.toLocaleString() + ']' + row['sname'] + '，商品：' + row['pname'] + ", 数量：" + count + ",进货申请成功";
             $table.bootstrapTable('load', data);
         },
         error: function (error) {

@@ -1,0 +1,11 @@
+{% extends "home.html" %}
+{% load static %}
+{% block table2 %}
+    <h1 class="row p-3">员工解雇申请列表</h1>
+    <div class="row">
+        <table class="table table-hover" id="table2"></table>
+    </div>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{% static "/js/staff.js" %}"></script>
+{% endblock %}
