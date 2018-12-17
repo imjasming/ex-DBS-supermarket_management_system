@@ -139,6 +139,15 @@ def index_staff(request):
         return HttpResponseNotAllowed('')
 
 
+@login_required
+def index_request(request):
+    user = request.user
+    if user.right == 'customer':
+        return HttpResponseNotAllowed('request method')
+    else:
+        return render(request, 'index_request.html', {'user': user, 'title': "进货申请"})
+
+
 # 用户注册方法
 def user_register(request):
     if request.method == 'POST':

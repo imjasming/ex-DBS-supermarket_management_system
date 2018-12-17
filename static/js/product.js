@@ -51,12 +51,12 @@ function buy(e) {
     let a = e.getAttribute("data-row");
     let row = $table.bootstrapTable('getRowByUniqueId', parseInt(a));
     let bn = row["BName"];
-    let num = row['row'];
+    let num = row['num'];
     let count = parseInt($('#num' + a).val());
     let pid = row['Pid'];
     let price = row['price'];
 
-    if (count > num || num <= 0) {
+    if (isNaN(count) || count > num || num <= 0) {
         document.getElementById("msg").innerText = "请输入合理的购买数量";
         return
     }
@@ -71,11 +71,11 @@ function buy(e) {
             $table.bootstrapTable('load', data);
         },
         error: function (error) {
-            if (error['status'] == '405') {
+            if (error['status'] == '500' || error['status'] == '503' || error['status'] == '501') {
+                document.getElementById("msg").innerText = "服务器数据异常";
+            } else {
                 document.getElementById("msg").innerText = "未登录，跳转到登录界面。。。";
                 redirectTo('/login')
-            } else {
-                document.getElementById("msg").innerText = "服务器数据异常";
             }
         }
     })

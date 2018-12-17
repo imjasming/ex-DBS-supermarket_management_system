@@ -89,3 +89,31 @@ def get_staff_json(uid, is_s_manager=False):
             raise e
 
     return json.dumps(staffs)
+
+
+def get_staff_fire_request_json():
+    requests = []
+    cursor.execute("call query_staff_request();")
+    data_rows = cursor.fetchall()
+
+    i = 0
+    for row in data_rows:
+        r = {'bid': row[0], 'bname': row[1], 'sname': row[2], 'time': row[3],
+             'uid': row[4], 'rid': row[5], 'row': i}
+        requests.append(r)
+        i += 1
+    return json.dumps(requests)
+
+
+def get_add_goods_request_json():
+    requests = []
+    cursor.execute("call query_goods_request();")
+    data_rows = cursor.fetchall()
+
+    i = 0
+    for row in data_rows:
+        r = {'rid': row[0], 'bid': row[1], 'pid': row[2], 'num': row[3],
+             'time': row[4], 'uid': row[5], 'pname': row[6], 'price': row[7], 'bname': row[8], 'row': i}
+        requests.append(r)
+        i += 1
+    return json.dumps(requests)

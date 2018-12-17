@@ -18,5 +18,6 @@ urlpatterns = [
      path('add', views.add),
      path('supply', views.index_supply),
      path('index-staff', views.index_staff),
-     path('index-product-manage', views.index_product_manage)
+     path('index-product-manage', views.index_product_manage),
+     path('index-request', views.index_request)
 ]
