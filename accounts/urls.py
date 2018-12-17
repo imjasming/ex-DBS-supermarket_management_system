@@ -14,8 +14,9 @@ urlpatterns = [
      path('logout', views.index_logout),
      path('buy', views.buy),
      path('change/price', views.change_price),
+     path('change/staff', views.change_staff),
      path('add', views.add),
      path('supply', views.index_supply),
-     path('index-stuff', views.index_staff),
+     path('index-staff', views.index_staff),
      path('index-product-manage', views.index_product_manage)
 ]

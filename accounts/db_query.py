@@ -57,7 +57,7 @@ def get_supply_goods_json():
     return json.dumps(goods)
 
 
-def get_staff_json(bid, is_s_manager=False):
+def get_staff_json(uid, is_s_manager=False):
     staffs = []
     if is_s_manager:
         try:
@@ -67,7 +67,7 @@ def get_staff_json(bid, is_s_manager=False):
             i = 0
             for row in data_rows:
                 # StaNO_id,StaName,Position,BID_id,tel
-                r = {'id': row[0], 'name': row[1], 'position': row[2], 'bid': row[3], 'tel': row[4], 'row': i}
+                r = {'sid': row[0], 'name': row[1], 'position': row[2], 'bid': row[3], 'tel': row[4], 'row': i}
                 staffs.append(r)
                 i += 1
         except Exception as e:
@@ -75,13 +75,14 @@ def get_staff_json(bid, is_s_manager=False):
 
     else:
         try:
-            cursor.execute("call query_staff_Branch(" + bid + ");")
+            cursor.execute("call query_staff_Branch(%d)" % uid)
             data_rows = cursor.fetchall()
 
             i = 0
             for row in data_rows:
                 # StaNO_id,StaName,Position,BID_id,tel
-                r = {'id': row[0], 'name': row[1], 'position': row[2], 'bid': row[3], 'tel': row[4], 'row': i}
+                r = {'sid': row[0], 'name': row[1], 'position': row[2], 'bid': row[3], 'bname': row[4], 'tel': row[5],
+                     'row': i}
                 staffs.append(r)
                 i += 1
         except Exception as e:

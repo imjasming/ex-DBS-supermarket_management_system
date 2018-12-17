@@ -13,7 +13,7 @@ function createTable(url, param, eId) {
         pageSize: pageSize,                     //每页的记录行数（*）
         pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
         search: true,                      //是否显示表格搜索
-        searchTimeOut: 10000,
+        searchTimeOut: 500,
         searchOnEnterKey: true,
         singleSelect: true,
         strictSearch: false,

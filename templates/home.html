@@ -37,17 +37,18 @@
             </div>
         </div>
     {% endblock %}
-    <div class="row py-5 font-weight-bold text-primary">
-        <p class="row px-5"></p>
-        <p id="msg" class="row px-5"></p>
+    <h1 class="row font-weight-bold pl-1">{{ title }}</h1>
+    <div class="row font-weight-bold text-primary">
+        <p class="row px-3"></p>
+        <p id="msg" class="row px-3"></p>
     </div>
     <div class="row">
         <table class="table table-hover" id="table">
         </table>
     </div>
-    {% block script %}
         <script type="text/javascript" src="{% static "/js/table.js" %}"></script>
-        <script type="text/javascript" src="{% static "/js/product.js" %}"></script>
         <script type="text/javascript" src="{% static "/js/redirect.js" %}"></script>
+    {% block script %}
+        <script type="text/javascript" src="{% static "/js/product.js" %}"></script>
     {% endblock %}
 {% endblock %}

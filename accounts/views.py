@@ -2,11 +2,10 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import render
-import json
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseBadRequest
 
 from accounts import db_manuplate
-from accounts.db_manuplate import buy_goods, change_goods_price
+from accounts.db_manuplate import buy_goods, change_goods_price, request_fire_staff
 from accounts.db_query import get_supply_goods_json, get_goods_json, get_staff_json, get_branch_goods_json
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
@@ -36,7 +35,11 @@ def send_goods_branch(request):
 def send_staff(request):
     user = request.user
     if user.right == 'smanager':
-        return HttpResponse(get_staff_json(), content_type="application/json")
+        return HttpResponse(get_staff_json(user.id, True), content_type="application/json")
+    elif user.right == 'manager':
+        return HttpResponse(get_staff_json(user.id, False))
+    else:
+        return HttpResponseNotAllowed('')
 
 
 @login_required
@@ -71,6 +74,19 @@ def change_price(request):
             raise e
 
 
+@login_required
+def change_staff(request):
+    user = request.user
+    if user.right == 'customer':
+        return HttpResponseNotAllowed('change staff')
+    else:
+        try:
+            request_fire_staff(user.id, request.GET['sid'])
+            return HttpResponse(get_staff_json(request.user.id), content_type="application/json")
+        except Exception as e:
+            raise e
+
+
 def add(request):
     if request.method == 'GET':
         pass
@@ -81,31 +97,35 @@ def index(request):
     if user is None or user is AnonymousUser:
         return render(request, 'home.html', {'user': None})
     else:
-        return render(request, 'home.html', {'user': user})
+        return render(request, 'home.html', {'user': user, 'title': "商品列表"})
 
 
 @login_required
 def index_home(request):
-    return render(request, 'home.html', {'user': request.user})
+    return render(request, 'home.html', {'user': request.user, 'title': "商品列表"})
 
 
 @login_required
 def index_supply(request):
-    return render(request, 'index_supply.html', {'user': request.user})
+    return render(request, 'index_supply.html', {'user': request.user, 'title': "进货列表"})
 
 
 @login_required
 def index_product_manage(request):
     user = request.user
     if user.right == 'manager':
-        return render(request, 'index_product_op.html', {'user': user})
+        return render(request, 'index_product_op.html', {'user': user, 'title': "价格改动"})
     elif user.right == 'customer':
         return HttpResponseNotAllowed('')
 
 
 @login_required
 def index_staff(request):
-    pass
+    user = request.user
+    if user.right == 'manager':
+        return render(request, 'index_staff.html', {'user': user, "title": "员工变动"})
+    elif user.right == 'customer':
+        return HttpResponseNotAllowed('')
 
 
 # 用户注册方法
