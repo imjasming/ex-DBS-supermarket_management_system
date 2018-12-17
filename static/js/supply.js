@@ -36,11 +36,40 @@ function operation(value, row, index) {
     let max = row['num'];
     let rowId = row['row'];
     if (max <= 0) {
-        return '<div class="d-flex flex-row"> <div class="col"> <input disabled type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button disabled id="buy" onclick="buy(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
+        return '<div class="d-flex flex-row"> <div class="col"> <input disabled type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button disabled id="buy" onclick="addFromSupply(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
     }
-    return '<div class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button id="buy" onclick="buy(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
+    return '<div class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button id="buy" onclick="addFromSupply(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
 }
 
-function validation() {
+function addFromSupply(e) {
+    let a = e.getAttribute("data-row");
+    let row = $table.bootstrapTable('getRowByUniqueId', parseInt(a));
+    let bn = row["BName"];
+    let num = row['row'];
+    let count = parseInt($('#num' + a).val());
+    let pid = row['Pid'];
 
+    if (count > num || num <= 0) {
+        document.getElementById("msg").innerText = "请输入合理的购买数量";
+        return
+    }
+
+    $.ajax({
+        url: buyUrl + '?uid=' + uid + "&pid=" + pid + '&bname=' + bn + '&num=' + count,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            let date = new Date();
+            document.getElementById("msg").innerText = '[' + date.toLocaleString() + ']' + row['PName'] + ", 数量：" + count + ",购买成功";
+            $table.bootstrapTable('load', data);
+        },
+        error: function (error) {
+            if (error['status'] == '405') {
+                document.getElementById("msg").innerText = "未登录，跳转到登录界面。。。";
+                redirectTo('/login')
+            } else {
+                document.getElementById("msg").innerText = "服务器数据异常";
+            }
+        }
+    })
 }

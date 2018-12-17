@@ -13,7 +13,7 @@ def buy_goods(pid, bname, num, uid):
         raise e
 
 
-def change_price(bname, pid, price):
+def change_goods_price(bname, pid, price):
     try:
         statement = "call modify_price('%s',%s,%s);" % (bname, pid, price)
         cursor.execute(statement)

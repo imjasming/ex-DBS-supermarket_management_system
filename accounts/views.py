@@ -6,7 +6,7 @@ import json
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseBadRequest
 
 from accounts import db_manuplate
-from accounts.db_manuplate import buy_goods
+from accounts.db_manuplate import buy_goods, change_goods_price
 from accounts.db_query import get_supply_goods_json, get_goods_json, get_staff_json, get_branch_goods_json
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
@@ -21,7 +21,6 @@ def send_supply_goods(request):
     return HttpResponse(get_supply_goods_json(), content_type="application/json")
 
 
-@login_required
 def send_goods(request):
     return HttpResponse(get_goods_json(), content_type="application/json")
 
@@ -66,8 +65,8 @@ def change_price(request):
         bname = request.GET['bname']
         price = request.GET['price']
         try:
-            change_price(bname, pid, price)
-            return HttpResponse(get_goods_json())
+            change_goods_price(bname, pid, price)
+            return HttpResponse(get_branch_goods_json(request.user.id), content_type="application/json")
         except Exception as e:
             raise e
 
