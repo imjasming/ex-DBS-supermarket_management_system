@@ -1,15 +1,16 @@
 let queryUrl = '/data/supply';
 let params = [
     {
-        checkbox: true,
-        visible: true                  //是否显示复选框
-    }, {
         field: 'sname',
         title: '供货商',
         sortable: true
     }, {
         field: 'sid',
         title: '供货商ID',
+        sortable: true
+    }, {
+        field: 'tel',
+        title: '联系方式',
         sortable: true
     }, {
         field: 'pname',

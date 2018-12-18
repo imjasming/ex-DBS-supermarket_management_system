@@ -1,12 +1,12 @@
 function redirectTo(url) {
-        //倒计时跳转页面
-        var i = 2;
-        var num = 0;
-        time = setInterval(function () {
-            num = --i;
-            if (num < 0) {
-                clearInterval(time);
-                location = url;
-            }
-        }, 500)
+    //倒计时跳转页面
+    var i = 2;
+    var num = 0;
+    time = setInterval(function () {
+        num = --i;
+        if (num < 0) {
+            clearInterval(time);
+            location = url;
+        }
+    }, 500)
 }

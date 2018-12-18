@@ -1,8 +1,5 @@
 let params = [
     {
-        checkbox: true,
-        visible: true                  //是否显示复选框
-    }, {
         field: 'BName',
         title: '分店',
         sortable: true

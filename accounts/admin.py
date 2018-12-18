@@ -11,10 +11,10 @@ class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     a_username = forms.CharField(label='Username', max_length=20, min_length=6,
-                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'username'}),
-                               error_messages={'required': 'username already taken.', })
+                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'username'}),
+                                 error_messages={'required': 'username already taken.', })
     a_password = forms.CharField(label='Password', min_length=6, max_length=18,
-                               widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
+                                 widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'password'}))
     re_password = forms.CharField(label='Password confirmation', max_length=18, min_length=6,
                                   widget=forms.PasswordInput(
                                       attrs={'class': 'form-control', 'placeholder': 'confirm again'}))
@@ -41,7 +41,6 @@ class UserCreationForm(forms.ModelForm):
     #         raise forms.ValidationError("Your password is too long.")
     #     return password
 
-
     # def clean_re_password(self):
     #     password = self.cleaned_data.get('password')
     #     re_password = self.cleaned_data.get('confirm')
@@ -65,10 +64,10 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('username',  'is_admin')
+    list_display = ('username', 'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (
-        (None, {'fields': ('username', 'password' )}),
+        (None, {'fields': ('username', 'password')}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin

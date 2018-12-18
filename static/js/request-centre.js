@@ -108,9 +108,9 @@ function deny(e) {
 
 function action(e, status) {
     var table = e.getAttribute('data-table');
-    if (table == '1'){
+    if (table == '1') {
         table = $table1
-    } else{
+    } else {
         table = $table2
     }
     let row = getTableRowBytable(e, table);

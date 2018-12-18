@@ -49,7 +49,7 @@ def get_supply_goods_json():
         i = 0
         for row in data_rows:
             r = {'num': row[0], 'price': row[1], 'pid': row[2], 'pname': row[3], 'sid': row[4], 'sname': row[5],
-                 'row': i}
+                 'tel': row[6], 'row': i}
             goods.append(r)
             i += 1
     except Exception as e:
