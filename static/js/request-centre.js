@@ -82,9 +82,9 @@ function operation(value, row, index) {
     let status = row['status'];
     if (status == '待处理') {
         if (row['pname'] != undefined) {
-            return '<div class="d-flex flex-row"><button id="allow" onclick="allow(this)" type="submit" class="btn btn-primary allow" data-table="1" data-row="' + rowId + '">同意</button><button id="allow" onclick="deny(this)" type="submit" class="btn btn-primary allow" data-row="' + rowId + '">拒绝</button></div>';
+            return '<div class="d-flex flex-row"><button id="allow" onclick="allow(this)" type="submit" class="btn btn-primary allow" data-table="1" data-row="' + rowId + '">同意</button><button id="allow" onclick="deny(this)" type="submit" class="btn btn-primary allow" data-table="1" data-row="' + rowId + '">拒绝</button></div>';
         } else {
-            return '<div class="d-flex flex-row"><button id="allow" onclick="allow(this)" type="submit" class="btn btn-primary allow" data-table="2" data-row="' + rowId + '">同意</button><button id="allow" onclick="deny(this)" type="submit" class="btn btn-primary allow" data-row="' + rowId + '">拒绝</button></div>';
+            return '<div class="d-flex flex-row"><button id="allow" onclick="allow(this)" type="submit" class="btn btn-primary allow" data-table="2" data-row="' + rowId + '">同意</button><button id="allow" onclick="deny(this)" type="submit" class="btn btn-primary allow" data-table="2" data-row="' + rowId + '">拒绝</button></div>';
         }
     } else {
         if (row['pname'] != undefined) {
