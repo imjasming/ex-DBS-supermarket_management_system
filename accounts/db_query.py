@@ -139,7 +139,7 @@ def get_record_by_statement(statement):
         for row in data_rows:
             date = row[3].strftime("%Y-%m-%d %H:%M:%S")
             r = {'pname': row[0], 'num': row[1], 'price': row[2],
-                 'time': date, 'bname': row[4], 'uname': row[5], 'row': i}
+                 'time': date, 'bname': row[4], 'uname': row[5], 'total': row[6], 'row': i}
             records.append(r)
             i += 1
     except Exception as e:

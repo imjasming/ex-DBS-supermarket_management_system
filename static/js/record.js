@@ -13,12 +13,16 @@ let params = [
         sortable: true
     }, {
         field: 'price',
-        title: '价格',
+        title: '单价',
         sortable: true,
     }, {
         field: 'num',
         title: '数量',
         visible: false,
+    }, {
+        field: 'total',
+        title: '总价',
+        visible: true,
     }, {
         field: 'row',
         title: 'row',
