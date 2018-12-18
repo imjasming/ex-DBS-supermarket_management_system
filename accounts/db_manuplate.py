@@ -23,3 +23,13 @@ def request_fire_staff(uid, staff_no):
 def request_add_goods(pid, uid, num, sid):
     statement = "call request_buygoods_branch(%s,%d,'%s',%s);" % (pid, uid, num, sid)
     cursor.execute(statement)
+
+
+def response_fire_staff(rid, status):
+    statement = "call responce_staffmanage_request(%s,'%s');" % (rid, status)
+    cursor.execute(statement)
+
+
+def response_add_goods(rid, uid, status):
+    statement = "call responce_supply_request(%s,%d,'%s');" % (rid, uid, status)
+    cursor.execute(statement)

@@ -46,6 +46,11 @@ function getTableRow(element) {
     return $table.bootstrapTable('getRowByUniqueId', parseInt(a));
 }
 
+function getTableRowBytable(element, table) {
+    let a = element.getAttribute("data-row");
+    return table.bootstrapTable('getRowByUniqueId', parseInt(a));
+}
+
 function getRowID(element) {
     let a = element.getAttribute("data-row");
     return parseInt(a);

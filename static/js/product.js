@@ -56,7 +56,7 @@ function buy(e) {
     let pid = row['Pid'];
     let price = row['price'];
 
-    if (isNaN(count) || count > num || num <= 0) {
+    if (isNaN(count) || count > num || count <= 0) {
         document.getElementById("msg").innerText = "请输入合理的购买数量";
         return
     }

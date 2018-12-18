@@ -5,8 +5,10 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseBadRequest
 
 from accounts import db_manuplate
-from accounts.db_manuplate import buy_goods, change_goods_price, request_fire_staff, request_add_goods
-from accounts.db_query import get_supply_goods_json, get_goods_json, get_staff_json, get_branch_goods_json
+from accounts.db_manuplate import buy_goods, change_goods_price, request_fire_staff, request_add_goods, \
+    response_add_goods, response_fire_staff
+from accounts.db_query import get_supply_goods_json, get_goods_json, get_staff_json, get_branch_goods_json, \
+    get_add_goods_request_json, get_staff_fire_request_json
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer, Goods, Staff, MyBaseUser
@@ -38,6 +40,24 @@ def send_staff(request):
         return HttpResponse(get_staff_json(user.id, True), content_type="application/json")
     elif user.right == 'manager':
         return HttpResponse(get_staff_json(user.id, False))
+    else:
+        return HttpResponseNotAllowed('')
+
+
+@login_required
+def send_request_goods(request):
+    user = request.user
+    if user.right == 'smanager':
+        return HttpResponse(get_add_goods_request_json(), content_type="application/json")
+    else:
+        return HttpResponseNotAllowed('')
+
+
+@login_required
+def send_request_staff(request):
+    user = request.user
+    if user.right == 'smanager':
+        return HttpResponse(get_staff_fire_request_json(), content_type="application/json")
     else:
         return HttpResponseNotAllowed('')
 
@@ -101,6 +121,30 @@ def change_staff(request):
             return HttpResponse(get_staff_json(request.user.id), content_type="application/json")
         except Exception as e:
             raise e
+
+
+@login_required
+def response_goods(request):
+    user = request.user
+    rid = request.GET['rid']
+    status = request.GET['status']
+    if user.right == 'smanager':
+        response_add_goods(rid, user.id, status)
+        return HttpResponse(get_add_goods_request_json(), content_type="application/json")
+    else:
+        return HttpResponseNotAllowed('')
+
+
+@login_required
+def response_staff(request):
+    user = request.user
+    rid = request.GET['rid']
+    status = request.GET['status']
+    if user.right == 'smanager':
+        response_fire_staff(rid, status)
+        return HttpResponse(get_staff_fire_request_json(), content_type="application/json")
+    else:
+        return HttpResponseNotAllowed('')
 
 
 def index(request):

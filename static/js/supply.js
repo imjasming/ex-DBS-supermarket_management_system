@@ -54,7 +54,7 @@ function addFromSupply(e) {
     let count = parseInt($('#num' + a).val());
     let pid = row['pid'];
 
-    if (count > num || num <= 0) {
+    if (isNaN(count) || count > num || count <= 0) {
         document.getElementById("msg").innerText = "请输入合理的购买数量";
         return
     }
