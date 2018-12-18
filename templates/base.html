@@ -35,12 +35,13 @@
 
             {% if not user is None and not user.id is None %}
                 {% if user.right != 'customer' %}
+                    <li class="nav-item"><a class="nav-link" href="/index/record">记录中心</a></li>
                     {% if user.right == 'manager' %}
-                        <li class="nav-item"><a class="nav-link" href="/index-product-manage">商品管理</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/supply">进货管理</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/index-staff">员工管理</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/index/product-manage">商品管理</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/index/supply">进货管理</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/index/staff">员工管理</a></li>
                     {% elif user.right ==  'smanager' %}
-                        <li class="nav-item"><a class="nav-link" href="/index-request">请求中心</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/index/request">请求中心</a></li>
                     {% endif %}
                 {% endif %}
             {% endif %}

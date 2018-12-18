@@ -12,12 +12,12 @@
             </div>
             <div class="form-group">
                 <p class="error">{{ error }}</p>
-                <label for="type">Select your account type</label>
+                {% comment %}<label for="type">Select your account type</label>
                 <select class="form-control" id="type" name="type">
                     <option>customer</option>
                     <option>staff</option>
                     <option>manager</option>
-                </select>
+                </select>{% endcomment %}
             </div>
             <div class="form-group">
                 {{ form.non_field_errors }}

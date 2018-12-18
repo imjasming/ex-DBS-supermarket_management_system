@@ -8,7 +8,8 @@ from accounts import db_manuplate
 from accounts.db_manuplate import buy_goods, change_goods_price, request_fire_staff, request_add_goods, \
     response_add_goods, response_fire_staff
 from accounts.db_query import get_supply_goods_json, get_goods_json, get_staff_json, get_branch_goods_json, \
-    get_add_goods_request_json, get_staff_fire_request_json
+    get_add_goods_request_json, get_staff_fire_request_json, get_customer_record_json, get_all_record_json, \
+    get_branch_record_json
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer, Goods, Staff, MyBaseUser
@@ -51,6 +52,17 @@ def send_request_goods(request):
         return HttpResponse(get_add_goods_request_json(), content_type="application/json")
     else:
         return HttpResponseNotAllowed('')
+
+
+@login_required
+def send_record(request):
+    user = request.user
+    if user.right == 'customer':
+        return HttpResponse(get_customer_record_json(user.id))
+    elif user.right == 'smanager':
+        return HttpResponse(get_all_record_json())
+    else:
+        return HttpResponse(get_branch_record_json(user.id))
 
 
 @login_required
@@ -190,6 +202,12 @@ def index_request(request):
         return HttpResponseNotAllowed('request method')
     else:
         return render(request, 'index_request.html', {'user': user, 'title': "进货申请"})
+
+
+@login_required
+def index_record(request):
+    user = request.user
+    return render(request, 'index_record.html', {'user': user, 'title': '历史纪录'})
 
 
 # 用户注册方法

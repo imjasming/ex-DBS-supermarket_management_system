@@ -126,3 +126,36 @@ def get_add_goods_request_json():
     except Exception as e:
         raise e
     return json.dumps(requests)
+
+
+def get_record_by_statement(statement):
+    records = []
+    try:
+        cursor.execute(statement)
+        data_rows = cursor.fetchall()
+
+        i = 0
+        for row in data_rows:
+            date = row[3].strftime("%Y-%m-%d %H:%M:%S")
+            r = {'pname': row[0], 'num': row[1], 'price': row[2],
+                 'time': date, 'bname': row[4], 'uname': row[5], 'row': i}
+            records.append(r)
+            i += 1
+    except Exception as e:
+        raise e
+    return json.dumps(records)
+
+
+def get_all_record_json():
+    statement = "call query_record();"
+    return get_record_by_statement(statement)
+
+
+def get_branch_record_json(uid):
+    statement = "call quert_goods_stfforbranch(%d);" % uid
+    return get_record_by_statement(statement)
+
+
+def get_customer_record_json(uid):
+    statement = "call query_customer_record(%d);" % uid
+    return get_record_by_statement(statement)
