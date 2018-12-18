@@ -34,8 +34,9 @@
             <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
 
             {% if not user is None and not user.id is None %}
+                <li class="nav-item"><a class="nav-link" href="/index/record">记录中心</a></li>
                 {% if user.right != 'customer' %}
-                    <li class="nav-item"><a class="nav-link" href="/index/record">记录中心</a></li>
+{#                    <li class="nav-item"><a class="nav-link" href="/index/record">记录中心</a></li>#}
                     {% if user.right == 'manager' %}
                         <li class="nav-item"><a class="nav-link" href="/index/product-manage">商品管理</a></li>
                         <li class="nav-item"><a class="nav-link" href="/index/supply">进货管理</a></li>

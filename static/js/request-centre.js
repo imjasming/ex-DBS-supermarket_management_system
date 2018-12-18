@@ -3,11 +3,11 @@ let params = [
         field: 'rid',
         title: '记录id',
         sortable: false
-    }, /*{
+    }, {
         field: 'time',
         title: '时间',
         visible: true,
-    }, */{
+    }, {
         field: 'bname',
         title: '分店',
         visible: true,
@@ -42,11 +42,11 @@ let params2 = [
         field: 'rid',
         title: '记录id',
         sortable: false
-    }, /*{
+    }, {
         field: 'time',
         title: '时间',
         visible: true,
-    }, */{
+    }, {
         field: 'bname',
         title: '分店',
         visible: true,

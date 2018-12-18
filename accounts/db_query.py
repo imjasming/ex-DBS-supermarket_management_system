@@ -100,8 +100,9 @@ def get_staff_fire_request_json():
 
         i = 0
         for row in data_rows:
+            date = row[6].strftime("%Y-%m-%d %H:%M:%S")
             r = {'bid': row[0], 'bname': row[1], 'sname': row[2],
-                 'uid': row[3], 'rid': row[4], 'status': row[5], 'row': i}
+                 'uid': row[3], 'rid': row[4], 'status': row[5], 'time': date, 'row': i}
             requests.append(r)
             i += 1
     except Exception as e:
@@ -117,10 +118,10 @@ def get_add_goods_request_json():
 
         i = 0
         for row in data_rows:
-            # date = row[4].strftime("%Y-%m-%d %H:%M:%S")
+            date = row[9].strftime("%Y-%m-%d %H:%M:%S")
             r = {'rid': row[0], 'bid': row[1], 'pid': row[2], 'num': row[3],
                  'uid': row[4], 'pname': row[5], 'price': row[6], 'bname': row[7], 'status': row[8],
-                 'row': i}
+                 'time': date, 'row': i}
             requests.append(r)
             i += 1
     except Exception as e:
