@@ -35,7 +35,8 @@ function operation(value, row, index) {
     //let selected = JSON.stringify($table.bootstrapTable('getRowByUniqueId', row));
     let max = row['num'];
     let rowId = row['row'];
-    let right = document.getElementById('user_id').getAttribute('data-right');
+    let e = document.getElementById('user_id');
+    let right = e.getAttribute("data-right");
     if (max <= 0 || right != 'customer') {
         return '<div disabled class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button disabled id="buy" onclick="buy(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
     }

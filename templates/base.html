@@ -48,7 +48,7 @@
             {% block menu_item %}{% endblock %}
         </ul>
 
-        <a id="user_id" data-id="{{ user.id }}" class="nav-link ml-md-auto d-none d-md-flex text-light" href="#">
+        <a data-id="{{ user.id }}" class="nav-link ml-md-auto d-none d-md-flex text-light" href="#">
         </a>
         {% if not user is None and user.is_authenticated %}
             <a id="user_id" data-id="{{ user.id }}" data-right="{{ user.right }}" class="nav-link ml-md-auto d-none d-md-flex text-light"
