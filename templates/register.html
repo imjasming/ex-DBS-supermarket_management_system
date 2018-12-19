@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <div id="form-container" class="container mx-auto mt-5">
+    <div id="form-container" class="container mx-auto mt-5 border rounded">
         <form class="" action="/register" onsubmit="" method="post">
             {% csrf_token %}
             <div class="text-center mb-4">
-                <h1 class="h3 mb-3 font-weight-normal">Sign up</h1>
+                <h1 class="h1 mb-3 font-weight-bold font-italic ">Sign up</h1>
             </div>
             <div class="form-group">
                 <label for="type">Select your account type</label>

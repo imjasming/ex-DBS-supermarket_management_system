@@ -36,14 +36,20 @@ function operation(value, row, index) {
     let max = row['num'];
     let rowId = row['row'];
     let e = document.getElementById('user_id');
-    let right = e.getAttribute("data-right");
-    if (max <= 0 || right != 'customer') {
+    let right = null;
+    try {
+        right = e.getAttribute("data-right");
+    }catch (e) {
+        right = null
+    }
+
+    if (max <= 0 || (right != 'customer' && right != null)) {
         return '<div disabled class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button disabled id="buy" onclick="buy(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
     }
     return '<div class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button id="buy" onclick="buy(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
 }
 
-let uid = document.getElementById('user_id').getAttribute("data-id");
+//let uid = document.getElementById('user_id').getAttribute("data-id");
 let buyUrl = "/buy";
 
 function buy(e) {
@@ -61,7 +67,7 @@ function buy(e) {
     }
 
     $.ajax({
-        url: buyUrl + '?uid=' + uid + "&pid=" + pid + '&bname=' + bn + '&num=' + count,
+        url: buyUrl + "?pid=" + pid + '&bname=' + bn + '&num=' + count,
         type: 'GET',
         dataType: 'json',
         success: function (data) {

@@ -4,11 +4,11 @@
 
 {% endblock %}
 {% block content %}
-    <div id="form-container" class="container mx-auto mt-5">
+    <div id="form-container" class="container mx-auto my-5 py-5 border rounded">
         <form class="" action="/login" onsubmit="" method="post">
             {% csrf_token %}
             <div class="text-center mb-4">
-                <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+                <h1 class="h1 mb-3 font-weight-bold font-italic ">Sign in</h1>
             </div>
             <div class="form-group">
                 <p class="error">{{ error }}</p>

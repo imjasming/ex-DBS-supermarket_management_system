@@ -3,12 +3,22 @@ a {
     text-decoration: none;
 }
 
-input{
+input {
     min-width: 72px;
 }
 
-div.bootstrap-table{
+div.bootstrap-table {
     width: 100%;
+}
+
+.bg {
+    overflow: hidden;
+    background-image: url("../img/bg.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height: 100%;
+    width: 100%
 }
 
 .carousel-inner img {
@@ -43,8 +53,14 @@ div.bootstrap-table{
     max-width: 500px;
     min-width: 180px;
     padding: 20px;
-    background-color: rgb(250, 250, 255);
+    background-color: rgb(253, 253, 253);
     border-radius: 8px;
+    box-shadow: black 0px 0px 16px;
+}
+
+#form-container:hover {
+    background-color: rgba(247, 255, 249, 0.5);
+    box-shadow: black 0px 0px 50px;
 }
 
 /*ul {
