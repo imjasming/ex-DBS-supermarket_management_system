@@ -141,7 +141,7 @@ function sendToServer(url, successMsg, table) {
                 document.getElementById("msg").innerText = "您无权操作";
 
             } else {
-                document.getElementById("msg").innerText = "服务器数据异常";
+                document.getElementById("msg").innerText = "库存不足";
             }
         }
     })
