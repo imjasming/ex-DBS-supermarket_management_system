@@ -75,10 +75,10 @@ WSGI_APPLICATION = 'ex_DBS_supermarket_management_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'webdev',
-        'USER': 'web',
-        'PASSWORD': 'web',
-        'HOST': '47.100.34.91',
+        'NAME': 'dxy',
+        'USER': 'root',
+        'PASSWORD': 'QWer1234%^',
+        'HOST': '45.77.125.114',
         'PORT': '3306',
 
     }

@@ -8,13 +8,16 @@ cursor = connection.cursor()
 def get_branch_goods_json(uid):
     goods = []
     try:
-        statement = "call query_goods_branch(%s);" % uid
+        statement = "select PNAME,PID,accounts_store.price,num,bname,kind from accounts_goods,accounts_store,accounts\
+        _branch,accounts_staffwhere accounts_staff.StaNO_id=(%s) and accounts_staff.BID_id=accounts_store.BID_id\
+         andaccounts_staff.BID_id=accounts_branch.BID andaccounts_store.PID_id=accounts_goods.PID;" % uid
         cursor.execute(statement)
         data_rows = cursor.fetchall()
 
         i = 0
         for row in data_rows:
-            r = {'PName': row[0], 'Pid': row[1], 'price': row[2], 'num': row[3], 'BName': row[4], 'row': i}
+            r = {'PName': row[0], 'Pid': row[1], 'price': row[2], 'num': row[3], 'BName': row[4], 'kind': row[5],
+                 'row': i}
             goods.append(r)
             i += 1
     except Exception as e:
@@ -31,7 +34,8 @@ def get_goods_json():
 
         i = 0
         for row in data_rows:
-            r = {'PName': row[0], 'Pid': row[1], 'price': row[2], 'num': row[3], 'BName': row[4], 'row': i}
+            r = {'PName': row[0], 'Pid': row[1], 'price': row[2], 'num': row[3], 'BName': row[4], 'kind': row[5],
+                 'row': i}
             goods.append(r)
             i += 1
     except Exception as e:
@@ -49,7 +53,7 @@ def get_supply_goods_json():
         i = 0
         for row in data_rows:
             r = {'num': row[0], 'price': row[1], 'pid': row[2], 'pname': row[3], 'sid': row[4], 'sname': row[5],
-                 'tel': row[6], 'row': i}
+                 'tel': row[6], 'kind': row[7], 'row': i}
             goods.append(r)
             i += 1
     except Exception as e:
@@ -160,3 +164,21 @@ def get_branch_record_json(uid):
 def get_customer_record_json(uid):
     statement = "call query_customer_record(%d);" % uid
     return get_record_by_statement(statement)
+
+
+def get_user_shopping_cart_json(uid):
+    cart_items = []
+    try:
+        cursor.execute("select BNAME,num,price,PID,PNAME,id from buycar where uid=(%d);" % uid)
+        data_rows = cursor.fetchall()
+
+        i = 0
+        for row in data_rows:
+            r = {'bname': row[0], 'num': row[1], 'price': row[2], 'pid': row[3], 'pname': row[4], 'rid': row[5],
+                 'row': i}
+            cart_items.append(r)
+            i += 1
+    except Exception as e:
+        raise e
+
+    return json.dumps(cart_items)

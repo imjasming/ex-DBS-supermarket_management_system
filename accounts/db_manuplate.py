@@ -33,3 +33,14 @@ def response_fire_staff(rid, status):
 def response_add_goods(rid, uid, status):
     statement = "call responce_supply_request(%s,%d,'%s');" % (rid, uid, status)
     cursor.execute(statement)
+
+
+def add_to_shopping_cart(uid, pid, pname, bname, num, price):
+    statement = "Insert into buycar(BNAME,num,uid,price,PID,PNAME) values('%s',%s,%d,%s,%s,%s);" % (
+        bname, num, uid, price, pid, pname)
+    cursor.execute(statement)
+
+
+def remove_cart_item_by_id(rid):
+    statement = "delete from buycar where id=(%s);" % rid
+    cursor.execute(statement)

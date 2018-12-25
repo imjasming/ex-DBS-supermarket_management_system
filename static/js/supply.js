@@ -25,6 +25,10 @@ let params = [
         title: '库存',
         sortable: true,
     }, {
+        field: 'kind',
+        title: '分类',
+        visible: false,
+    }, {
         field: 'pid',
         title: 'pid',
         visible: false,

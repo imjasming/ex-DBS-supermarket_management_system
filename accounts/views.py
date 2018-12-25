@@ -6,10 +6,10 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllow
 
 from accounts import db_manuplate
 from accounts.db_manuplate import buy_goods, change_goods_price, request_fire_staff, request_add_goods, \
-    response_add_goods, response_fire_staff
+    response_add_goods, response_fire_staff, add_to_shopping_cart, remove_cart_item_by_id
 from accounts.db_query import get_supply_goods_json, get_goods_json, get_staff_json, get_branch_goods_json, \
     get_add_goods_request_json, get_staff_fire_request_json, get_customer_record_json, get_all_record_json, \
-    get_branch_record_json
+    get_branch_record_json, get_user_shopping_cart_json
 from accounts.forms import LoginForm
 from accounts.admin import UserCreationForm
 from accounts.models import Customer, Goods, Staff, MyBaseUser
@@ -75,6 +75,14 @@ def send_request_staff(request):
 
 
 @login_required
+def send_user_shopping_cart(request):
+    if request.user.id is None:
+        return HttpResponseNotAllowed('/home')
+    else:
+        return HttpResponse(get_user_shopping_cart_json(request.user.id))
+
+
+@login_required
 def buy(request):
     if request.method == 'GET':
         if request.user.id is None:
@@ -105,6 +113,39 @@ def add(request):
             return HttpResponse(get_supply_goods_json())
         except Exception as e:
             raise e
+
+
+@login_required
+def add_to_cart(request):
+    if request.method == 'GET':
+        if request.user.id is None:
+            return HttpResponseNotAllowed('change_price')
+        else:
+            try:
+                uid = request.user.id
+                pid = request.GET['pid']
+                pname = request.GET['pname']
+                bname = request.GET['bname']
+                num = request.GET['num']
+                price = request.GET['price']
+                add_to_shopping_cart(uid, pid, pname, bname, num, price)
+                return HttpResponse(get_goods_json())
+            except Exception as e:
+                raise e
+
+
+@login_required
+def remove_cart_item(request):
+    if request.method == 'GET':
+        if request.user.id is None:
+            return HttpResponseNotAllowed('change_price')
+        else:
+            try:
+                rid = request.GET['rid']
+                remove_cart_item_by_id(rid)
+                return HttpResponse(get_user_shopping_cart_json(request.user.id))
+            except Exception as e:
+                raise e
 
 
 @login_required
@@ -210,6 +251,12 @@ def index_record(request):
     return render(request, 'index_record.html', {'user': user, 'title': '历史纪录'})
 
 
+@login_required
+def index_cart(request):
+    user = request.user
+    return render(request, 'index_cart.html', {'user': user, 'title': '购物车'})
+
+
 # 用户注册方法
 def user_register(request):
     if request.method == 'POST':
@@ -220,7 +267,16 @@ def user_register(request):
             username = uf.cleaned_data['a_username']
             tel = request.POST["tel"]
             a_password = request.POST["a_password"]
-            right = request.POST["type"]
+
+            right = None
+            try:
+                right = request.POST["type"]
+            except Exception as e:
+                pass
+
+            if right is None:
+                right = 'customer'
+
             # 注册用户表
             user = MyBaseUser.objects.create_user(username=username, password=a_password, right=right)
             # userID = MyBaseUser.objects.get(username=username)

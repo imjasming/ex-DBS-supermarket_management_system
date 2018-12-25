@@ -36,7 +36,7 @@
             {% if not user is None and not user.id is None %}
                 <li class="nav-item"><a class="nav-link" href="/index/record">记录中心</a></li>
                 {% if user.right != 'customer' %}
-{#                    <li class="nav-item"><a class="nav-link" href="/index/record">记录中心</a></li>#}
+                    {#                    <li class="nav-item"><a class="nav-link" href="/index/record">记录中心</a></li>#}
                     {% if user.right == 'manager' %}
                         <li class="nav-item"><a class="nav-link" href="/index/product-manage">商品管理</a></li>
                         <li class="nav-item"><a class="nav-link" href="/index/supply">进货管理</a></li>
@@ -44,6 +44,8 @@
                     {% elif user.right ==  'smanager' %}
                         <li class="nav-item"><a class="nav-link" href="/index/request">请求中心</a></li>
                     {% endif %}
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="/index/cart">购物车</a></li>
                 {% endif %}
             {% endif %}
             {% block menu_item %}{% endblock %}
@@ -52,7 +54,8 @@
         <a data-id="{{ user.id }}" class="nav-link ml-md-auto d-none d-md-flex text-light" href="#">
         </a>
         {% if not user is None and user.is_authenticated %}
-            <a id="user_id" data-id="{{ user.id }}" data-right="{{ user.right }}" class="nav-link ml-md-auto d-none d-md-flex text-light"
+            <a id="user_id" data-id="{{ user.id }}" data-right="{{ user.right }}"
+               class="nav-link ml-md-auto d-none d-md-flex text-light"
                href="/profile">
                 User: {{ user.username }}(id: {{ user.id }})
             </a>

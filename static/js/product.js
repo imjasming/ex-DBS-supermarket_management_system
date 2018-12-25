@@ -17,6 +17,10 @@ let params = [
         title: '库存',
         sortable: true,
     }, {
+        field: 'kind',
+        title: '分类',
+        visible: true,
+    }, {
         field: 'Pid',
         title: 'pid',
         visible: false,
@@ -25,7 +29,7 @@ let params = [
         title: 'row',
         visible: false,
     }, {
-        title: '购买',
+        title: '操作',
         formatter: operation,
     }];
 
@@ -44,15 +48,15 @@ function operation(value, row, index) {
     }
 
     if (max <= 0 || (right != 'customer' && right != null)) {
-        return '<div disabled class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button disabled id="buy" onclick="buy(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
+        return '<div disabled class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button disabled id="buy" onclick="addToCart(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">添加至购物车</button></div>';
     }
-    return '<div class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button id="buy" onclick="buy(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">Buy</button></div>';
+    return '<div class="d-flex flex-row"> <div class="col"> <input type="number" class="form-control" name="num" required id="num' + rowId + '" placeholder="count" min="1" max="' + max + '"></div><button id="buy" onclick="addToCart(this)" type="submit" class="btn btn-primary buy" data-row="' + rowId + '">添加至购物车</button></div>';
 }
 
 //let uid = document.getElementById('user_id').getAttribute("data-id");
-let buyUrl = "/buy";
+let addUrl = "/add/cart";
 
-function buy(e) {
+function addToCart(e) {
     let a = e.getAttribute("data-row");
     let row = $table.bootstrapTable('getRowByUniqueId', parseInt(a));
     let bn = row["BName"];
@@ -60,6 +64,7 @@ function buy(e) {
     let count = parseInt($('#num' + a).val());
     let pid = row['Pid'];
     let price = row['price'];
+    let pname = row['PName'];
 
     if (isNaN(count) || count > num || count <= 0) {
         document.getElementById("msg").innerText = "请输入合理的购买数量";
@@ -67,12 +72,12 @@ function buy(e) {
     }
 
     $.ajax({
-        url: buyUrl + "?pid=" + pid + '&bname=' + bn + '&num=' + count,
+        url: addUrl + "?pid=" + pid + '&bname=' + bn + '&num=' + count + '&pname=' + pname + '&price=' + price,
         type: 'GET',
         dataType: 'json',
         success: function (data) {
             let date = new Date();
-            document.getElementById("msg").innerText = '[' + date.toLocaleString() + ']' + row['PName'] + ", 数量：" + count + ",购买成功,花费：" + price * count;
+            document.getElementById("msg").innerText = '[' + date.toLocaleString() + ']添加至购物车成功';
             $table.bootstrapTable('load', data);
         },
         error: function (error) {
