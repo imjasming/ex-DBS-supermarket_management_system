@@ -8,9 +8,7 @@ cursor = connection.cursor()
 def get_branch_goods_json(uid):
     goods = []
     try:
-        statement = "select PNAME,PID,accounts_store.price,num,bname,kind from accounts_goods,accounts_store,accounts\
-        _branch,accounts_staffwhere accounts_staff.StaNO_id=(%s) and accounts_staff.BID_id=accounts_store.BID_id\
-         andaccounts_staff.BID_id=accounts_branch.BID andaccounts_store.PID_id=accounts_goods.PID;" % uid
+        statement = "select PNAME,PID,accounts_store.price,num,bname,kind from accounts_goods,accounts_store,accounts_branch,accounts_staff where accounts_staff.StaNO_id=%d and accounts_staff.BID_id=accounts_store.BID_id and accounts_staff.BID_id=accounts_branch.BID and accounts_store.PID_id=accounts_goods.PID;" % uid
         cursor.execute(statement)
         data_rows = cursor.fetchall()
 
@@ -53,7 +51,7 @@ def get_supply_goods_json():
         i = 0
         for row in data_rows:
             r = {'num': row[0], 'price': row[1], 'pid': row[2], 'pname': row[3], 'sid': row[4], 'sname': row[5],
-                 'tel': row[6], 'kind': row[7], 'row': i}
+                 'kind': row[6], 'row': i}
             goods.append(r)
             i += 1
     except Exception as e:
@@ -141,6 +139,7 @@ def get_record_by_statement(statement):
 
         i = 0
         for row in data_rows:
+            t = row[3]
             date = row[3].strftime("%Y-%m-%d %H:%M:%S")
             r = {'pname': row[0], 'num': row[1], 'price': row[2],
                  'time': date, 'bname': row[4], 'uname': row[5], 'total': row[6], 'row': i}

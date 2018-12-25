@@ -3,8 +3,8 @@ from django.db import connection
 cursor = connection.cursor()
 
 
-def buy_goods(pid, bname, num, uid):
-    statement = "call buy_branch(%s,'%s',%s,%d);" % (pid, bname, num, uid)
+def buy_goods(pid, bname, num, uid, rid):
+    statement = "call buy_branch(%s,'%s',%s,%d,%s);" % (pid, bname, num, uid, rid)
     cursor.execute(statement)
     # cursor.callproc('buy_branch', (pid, bname, num, uid,))  # 注意参数应该是一个元组
     # connection.connection.commit()  # 调用存储过程后，确定要进行commit执行
@@ -36,7 +36,7 @@ def response_add_goods(rid, uid, status):
 
 
 def add_to_shopping_cart(uid, pid, pname, bname, num, price):
-    statement = "Insert into buycar(BNAME,num,uid,price,PID,PNAME) values('%s',%s,%d,%s,%s,%s);" % (
+    statement = "Insert into buycar(BNAME,num,uid,price,PID,PNAME) values('%s',%s,%d,%s,%s,'%s');" % (
         bname, num, uid, price, pid, pname)
     cursor.execute(statement)
 

@@ -23,6 +23,7 @@ urlpatterns = [
     path('change/staff', views.change_staff),
     path('add', views.add),
     path('add/cart', views.add_to_cart),
+    path('remove', views.remove_cart_item),
     path('index/supply', views.index_supply),
     path('index/staff', views.index_staff),
     path('index/product-manage', views.index_product_manage),

@@ -5,11 +5,11 @@ let params = [
         title: 'rid',
         sortable: false
     }, {
-        field: 'BName',
+        field: 'bname',
         title: '分店',
         sortable: false
     }, {
-        field: 'PName',
+        field: 'pname',
         title: '产品名称',
         sortable: true
     }, {
@@ -21,7 +21,7 @@ let params = [
         title: '数量',
         sortable: true,
     }, {
-        field: 'Pid',
+        field: 'pid',
         title: 'pid',
         visible: false,
     }, {
@@ -46,13 +46,14 @@ let buyUrl = "/buy";
 function buy(e) {
     let a = e.getAttribute("data-row");
     let row = $table.bootstrapTable('getRowByUniqueId', parseInt(a));
-    let bn = row["BName"];
+    let bn = row["bname"];
     let count = row['num'];
-    let pid = row['Pid'];
+    let pid = row['pid'];
     let price = row['price'];
+    let rid = row['rid'];
 
     $.ajax({
-        url: buyUrl + "?pid=" + pid + '&bname=' + bn + '&num=' + count,
+        url: buyUrl + "?pid=" + pid + '&bname=' + bn + '&num=' + count + '&rid=' + rid,
         type: 'GET',
         dataType: 'json',
         success: function (data) {

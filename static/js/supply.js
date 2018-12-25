@@ -9,10 +9,6 @@ let params = [
         title: '供货商ID',
         sortable: true
     }, {
-        field: 'tel',
-        title: '联系方式',
-        sortable: true
-    }, {
         field: 'pname',
         title: '产品名称',
         sortable: true,
