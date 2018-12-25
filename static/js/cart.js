@@ -3,11 +3,11 @@ let params = [
     {
         field: 'rid',
         title: 'rid',
-        sortable: false
+        visible: false
     }, {
         field: 'bname',
         title: '分店',
-        sortable: false
+        sortable: true
     }, {
         field: 'pname',
         title: '产品名称',

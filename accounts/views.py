@@ -94,7 +94,7 @@ def buy(request):
             num = request.GET['num']
             rid = request.GET['rid']
             try:
-                buy_goods(pid, bname, num, uid, rid)
+                buy_goods(rid)
                 return HttpResponse(get_user_shopping_cart_json(uid))
             except Exception as e:
                 raise e
