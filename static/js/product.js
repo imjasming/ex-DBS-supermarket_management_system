@@ -19,6 +19,7 @@ let params = [
     }, {
         field: 'kind',
         title: '分类',
+        sortable: true,
         visible: true,
     }, {
         field: 'Pid',
