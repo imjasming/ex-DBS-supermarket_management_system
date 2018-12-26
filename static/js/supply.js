@@ -67,14 +67,20 @@ function addFromSupply(e) {
         success: function (data) {
             let date = new Date();
             document.getElementById("msg").innerText = '[' + date.toLocaleString() + ']' + row['sname'] + '，商品：' + row['pname'] + ", 数量：" + count + ",进货申请成功";
+            $('#modalMsg').text("进货申请成功");
+            $('#myModal').modal('show');
             $table.bootstrapTable('load', data);
         },
         error: function (error) {
             if (error['status'] == '405') {
                 document.getElementById("msg").innerText = "未登录，跳转到登录界面。。。";
+                $('#modalMsg').text("未登录，跳转到登录界面。。。");
+                $('#myModal').modal('show');
                 redirectTo('/login')
             } else {
                 document.getElementById("msg").innerText = "服务器数据异常";
+                $('#modalMsg').text("服务器数据异常");
+                $('#myModal').modal('show');
             }
         }
     })

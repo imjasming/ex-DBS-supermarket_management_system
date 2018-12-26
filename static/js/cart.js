@@ -59,13 +59,19 @@ function buy(e) {
         success: function (data) {
             let date = new Date();
             document.getElementById("msg").innerText = '[' + date.toLocaleString() + ']' + row['PName'] + ", 数量：" + count + ",购买成功,花费：" + price * count;
+            $('#modalMsg').text('购买成功');
+            $('#myModal').modal('show');
             $table.bootstrapTable('load', data);
         },
         error: function (error) {
             if (error['status'] == '500' || error['status'] == '503' || error['status'] == '501') {
                 document.getElementById("msg").innerText = "服务器数据异常";
+                $('#modalMsg').text('服务器数据异常');
+                $('#myModal').modal('show');
             } else {
                 document.getElementById("msg").innerText = "未登录，跳转到登录界面。。。";
+                $('#modalMsg').text('未登录，跳转到登录界面。。。');
+                $('#myModal').modal('show');
                 redirectTo('/login')
             }
         }
@@ -86,17 +92,24 @@ function rm(e) {
         success: function (data) {
             let date = new Date();
             document.getElementById("msg").innerText = '[' + date.toLocaleString() + ']删除成功';
+            $('#modalMsg').text('删除成功');
+            $('#myModal').modal('show');
             $table.bootstrapTable('load', data);
         },
         error: function (error) {
             if (error['status'] == '401') {
                 document.getElementById("msg").innerText = "未登录，跳转到登录界面。。。";
+                $('#modalMsg').text('未登录，跳转到登录界面。。。');
+                $('#myModal').modal('show');
                 redirectTo('/login')
             } else if (error['status'] == '405') {
                 document.getElementById("msg").innerText = "您无权操作";
-
+                $('#modalMsg').text('您无权操作');
+                $('#myModal').modal('show');
             } else {
                 document.getElementById("msg").innerText = "服务器数据异常";
+                $('#modalMsg').text('服务器数据异常');
+                $('#myModal').modal('show');
             }
         }
     })

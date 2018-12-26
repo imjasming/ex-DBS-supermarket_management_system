@@ -7,6 +7,14 @@
 {% endblock %}
 {% block menu_item %}{% endblock %}
 {% block content %}
+    <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content p-5">
+                <h5 id="modalMsg" class="p-5"></h5>
+            </div>
+        </div>
+    </div>
     {% block banner %}
         <div id="banner" class="container pt-5 row">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="2000">

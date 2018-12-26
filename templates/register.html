@@ -6,7 +6,7 @@
             <div class="text-center mb-4">
                 <h1 class="h1 mb-3 font-weight-bold font-italic ">Sign up</h1>
             </div>
-            <div class="form-group">
+            {% comment %}<div class="form-group">
                 <label for="type">Select your account type</label>
                 <select class="form-control" id="type" name="type">
                     <option>customer</option>
@@ -14,7 +14,7 @@
                     <option>manager</option>
                     <option>smanager</option>
                 </select>
-            </div>
+            </div>{% endcomment %}
             {{ form.non_field_errors }}
             <div class="form-group">
                 <p class="error">{{ error }}</p>
